@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Corben:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+.tryColor {
+    color: red;
+}
+
+.myh1 {
+    font-family: "Almendra", serif;
+    font-weight: 700;
+    font-style: normal;
+    color: white;
+    font-size: 2rem;
+}
+
+body {
+    font-family: "Libre Baskerville", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.myBtn {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    /* font-weight: bold; */
+    padding-top: 3px;
+}
+
+/* Menu */
+
+#mobile-menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    /* background-color: rgba(0, 0, 0, 0.9); */
+    z-index: 50;
+    display: none;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+#mobile-menu.open {
+    display: block;
+}
+
+
+/*scrollbar */
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: linear-gradient(to bottom, #8b3f0c, #d77a1d);
+    border: 1px solid #8b3f0c;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #d77a1d;
+    border-radius: 6px;
+    border: 2px solid #8b3f0c;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #d77a1dcc;
+}
