@@ -1,9 +1,8 @@
 <x-app>
     <x-slot:title>News details</x-slot:title>
-    <div class="text-center">
-        <h2 class="tryColor">Hello details!</h2>
+    <div class="m-[30px] flex flex-col justify-center items-center">
         <h1>{{ $news->title }}</h1>
-        <img src="{{ asset('assets/imgs/news/' . $news->img) }}" alt="img" title="img" class="object-cover h-[200px] w-40">
-        <p class="text-black">Description: {{ $news->description }}</p>
+        <img src="{{ \Illuminate\Support\Facades\Storage::url($news->img) }}" alt="img" title="img" class="object-cover h-[200px] w-40 rounded-[20px] mt-4">
+        <p class="text-black mt-4 max-w-[600px]">[Description]: {{ $news->description }}</p>
     </div>
 </x-app>

@@ -27,6 +27,8 @@ p {
     display: flex;
     flex-direction: row;
     padding: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .card {

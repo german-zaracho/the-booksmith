@@ -14,7 +14,14 @@
             <div class="flex justify-between items-center space-x-[30px]">
                 <div class="myNews flex space-x-4">
                     <div class="h-[90px]">
-                        <img src="{{ asset('assets/imgs/news/' . $new->img) }}" alt="card-image" class="object-cover w-full h-full" />
+                        @if($new->img && \Illuminate\Support\Facades\Storage::has($new->img))
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($new->img) }}" alt="card-image" class="object-cover w-full h-full" />
+                        <!-- "{{ \Illuminate\Support\Facades\Storage::url($new->img) }}" -->
+                        <!-- src="{{ asset('assets/imgs/news/' . $new->img) }}" -->
+                        <!-- {{ asset('storage/imgs/no-image.jpg') }} -->
+                        @else
+                        <img src="{{ asset('assets/imgs/no-image.jpg') }}" alt="card-image" class="object-cover w-full h-full" />
+                        @endif
                     </div>
                     <h2 class="mb-2 flex items-center font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
                         {{$new->title}}

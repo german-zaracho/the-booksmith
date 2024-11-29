@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\News;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -43,17 +44,22 @@ class NewsController extends Controller
             [
                 'title' => 'required|min:2',
                 'description' => 'required',
-                'image' => 'nullable',
+                'img' => 'nullable',
             ],
             [
                 'title.required' => 'The title cannot be empty.',
                 'title.min' => 'The title must be at least 2 characters.',
                 'description.required' => 'The description cannot be empty.',
-                // 'image.required' => 'You have to add an image.',
+                // 'img.required' => 'You have to add an image.',
             ]
         );
         
         $input = $request->all();
+
+        // so we can store images
+        if($request->hasFile('img')) {
+            $input['img'] = $request->file('img')->store('imgs', 'public');
+        }
 
         News::create($input);
         
@@ -66,6 +72,13 @@ class NewsController extends Controller
     {
         $news = News::findOrFail($id);
         $news->delete($id);
+
+        if(
+            $news->img &&
+            Storage::has($news->img)
+        ) {
+            Storage::delete($news->img);
+        }
 
         return redirect()
         ->route('news.management')
@@ -92,18 +105,34 @@ class NewsController extends Controller
             [
                 'title' => 'required|min:2',
                 'description' => 'required',
-                'image' => 'nullable',
+                'img' => 'required',
             ],
             [
                 'title.required' => 'The title cannot be empty.',
                 'title.min' => 'The title must be at least 2 characters.',
                 'description.required' => 'The description cannot be empty.',
-                // 'image.required' => 'You have to add an image.',
+                'img.required' => 'You have to add an image.',
             ]
         );
 
         $news = News::findOrFail($id);
-        $news ->update($request->all());
+
+        $input = $request->except(['_token', '_method']);
+        $oldImg = $news->img;
+
+        if($request->hasFile('img')) {
+            $input['img'] = $request->file('img')->store('imgs', 'public');
+        }
+
+        $news->update($input);
+        
+        if(
+            $request->hasFile('img') &&
+            $oldImg &&
+            Storage::has($oldImg)
+        ) {
+            Storage::delete($oldImg);
+        }
 
 
         return redirect()

@@ -13,9 +13,13 @@ export default {
 
     theme: {
         extend: {
-            backgroundImage:{
+            backgroundImage: {
                 'brown-gradient': 'linear-gradient(to bottom, #ab550f, #f09224)',
                 'brown-gradient-invert': 'linear-gradient(to bottom, #f09224, #ab550f)',
+            },
+            screens: {
+                'max-620': { max: '620px' },
+                'max-768': { max: '768px' },
             },
         },
     },

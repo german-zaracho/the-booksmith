@@ -1,4 +1,4 @@
-<section class="bg-[#f09224]">
+<section class="bg-[#f09224] overflow-hidden">
     <div class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <h2 class="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Reviews from our customers
@@ -106,7 +106,7 @@
                     </blockquote>
                 </div>
 
-                <div class="keen-slider__slide opacity-40 transition-opacity duration-500">
+                <div class="keen-slider__slide opacity-0 transition-opacity duration-500">
                     <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8 h-[250px]">
                         <div class="flex items-center gap-4">
 

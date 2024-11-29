@@ -16,14 +16,14 @@ class News extends Model
     public const CREATE_RULES = [
         'title' => 'required|min:2',
         'description' => 'required',
-        'img' => 'required',
+        'img' => 'nullable',
     ];
 
     public const CREATE_MESSAGES = [
         'title.required' => 'The title cannot be empty.',
         'title.min' => 'The title must be at least 2 characters.',
         'description.required' => 'The description cannot be empty.',
-        'img.required' => 'You have to add an image.',
+        // 'img.required' => 'You have to add an image.',
     ];
 
 }

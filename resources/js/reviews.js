@@ -47,15 +47,33 @@ const keenSlider = new KeenSlider(
             keenSliderCount.innerText = slider.slides.length
         },
         slideChanged(slider) {
-            slider.slides.forEach((slide) => slide.classList.add('opacity-40'))
-
-            slider.slides[slider.track.details.rel].classList.remove('opacity-40')
-
-            keenSliderActive.innerText = slider.track.details.rel + 1
+            updateSlideOpacity(slider);
+            keenSliderActive.innerText = slider.track.details.rel + 1;
         },
     },
     []
 )
+
+function updateSlideOpacity(slider) {
+    const slideCount = slider.slides.length;
+    const activeIndex = slider.track.details.rel; // active slide index
+
+    // reset opacities
+    slider.slides.forEach((slide, index) => {
+        slide.classList.remove('opacity-40', 'opacity-0'); // remove existing classes
+        slide.classList.add('opacity-40'); // add opacity-40
+    });
+
+    // remove opacity-40 so that it has normal opacity (1)
+    slider.slides[activeIndex].classList.remove('opacity-40');
+
+    // applies opacity-0 to the end slides
+    const slideAtMinus2 = (activeIndex - 2 + slideCount) % slideCount; // left slide
+    const slideAtPlus2 = (activeIndex + 2) % slideCount; // right slide
+
+    slider.slides[slideAtMinus2].classList.add('opacity-0');
+    slider.slides[slideAtPlus2].classList.add('opacity-0');
+}
 
 const keenSliderPrevious = document.getElementById('keen-slider-previous')
 const keenSliderNext = document.getElementById('keen-slider-next')

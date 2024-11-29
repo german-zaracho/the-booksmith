@@ -14,7 +14,7 @@
                     When the police finally found his "House of Horrors," they uncovered nineteen bodies and one survivor.
                 </p>
             </div>
-            <!-- <button class="card__button myBtn">See Details</button> -->
+
             <button
                 class="card__button myBtn"
                 onclick="window.location.href='{{ route('shop.detail', ['id' => 1]) }}'">
@@ -37,7 +37,7 @@
                     In 1984, London is a grim city in the totalitarian state of Oceania where Big Brother is always watching you.
                 </p>
             </div>
-            <!-- <button class="card__button myBtn">See Details</button> -->
+
             <button
                 class="card__button myBtn"
                 onclick="window.location.href='{{ route('shop.detail', ['id' => 3]) }}'">
@@ -60,7 +60,7 @@
                     Henry has achieved the breakthrough of his career. He created an artificially intelligent consciousness, William.
                 </p>
             </div>
-            <!-- <button class="card__button myBtn">See Details</button> -->
+
             <button
                 class="card__button myBtn"
                 onclick="window.location.href='{{ route('shop.detail', ['id' => 6]) }}'">

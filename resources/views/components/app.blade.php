@@ -28,7 +28,7 @@
         <footer class="bg-brown-gradient-invert rounded-t-[20px] ">
             <div class="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-                    <div>
+                    <div class="flex flex-col justify-center sm:justify-start items-center sm:flex-none">
                         <div class="flex flex-row items-center">
                             <img src="{{ asset('assets/imgs/logo.ico') }}" class="mr-5 h-6 sm:h-9" alt="logo" />
                             <p class="myh1">The Booksmith</p>
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-8 lg:col-span-2 sm:grid-cols-2 lg:grid-cols-4">
-                        <div>
+                        <div class="flex flex-col text-center lg:text-left items-center lg:block">
                             <p class="font-medium">
                                 Company
                             </p>
@@ -82,7 +82,7 @@
                                 <a class="hover:opacity-75" href="#"> Join Our Community </a>
                             </nav>
                         </div>
-                        <div>
+                        <div class="flex flex-col text-center lg:text-left items-center lg:block">
                             <p class="font-medium">
                                 Services
                             </p>
@@ -93,7 +93,7 @@
                                 <a class="hover:opacity-75" href="#"> Author Spotlights & Interviews </a>
                             </nav>
                         </div>
-                        <div>
+                        <div class="flex flex-col text-center lg:text-left items-center lg:block">
                             <p class="font-medium">
                                 Helpful Links
                             </p>
@@ -104,7 +104,7 @@
                                 <a class="hover:opacity-75" href="#"> Book Recommendations </a>
                             </nav>
                         </div>
-                        <div>
+                        <div class="flex flex-col justify-center text-center lg:text-left items-center lg:block">
                             <p class="font-medium">
                                 Book News
                             </p>
