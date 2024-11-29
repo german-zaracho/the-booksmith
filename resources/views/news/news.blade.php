@@ -9,21 +9,17 @@
     <div class="mx-auto max-w-[1080px]">
 
         @foreach($news as $new)
-
-        <div class="my-2.5 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-[#f09224] dark:border-gray-700">
+        <div class="my-2.5 p-6 bg-white rounded-lg dark:bg-[#f09224] mb-[20px] shadow-2xl ring-2 ring-black ring-opacity-10">
             <div class="flex justify-between items-center space-x-[30px]">
                 <div class="myNews flex space-x-4">
-                    <div class="h-[90px]">
+                    <div class="w-[120px] h-[120px] overflow-hidden rounded-md flex-shrink-0">
                         @if($new->img && \Illuminate\Support\Facades\Storage::has($new->img))
                         <img src="{{ \Illuminate\Support\Facades\Storage::url($new->img) }}" alt="card-image" class="object-cover w-full h-full" />
-                        <!-- "{{ \Illuminate\Support\Facades\Storage::url($new->img) }}" -->
-                        <!-- src="{{ asset('assets/imgs/news/' . $new->img) }}" -->
-                        <!-- {{ asset('storage/imgs/no-image.jpg') }} -->
                         @else
                         <img src="{{ asset('assets/imgs/no-image.jpg') }}" alt="card-image" class="object-cover w-full h-full" />
                         @endif
                     </div>
-                    <h2 class="mb-2 flex items-center font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                    <h2 class="mb-2 flex items-center font-sans text-lg font-semibold text-blue-gray-900">
                         {{$new->title}}
                     </h2>
                 </div>
@@ -35,10 +31,8 @@
                 </a>
             </div>
         </div>
-
         @endforeach
 
     </div>
-
 
 </x-app>

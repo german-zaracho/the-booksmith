@@ -7,12 +7,11 @@
             <!-- NavBar options -->
             <div class="flex items-center">
                 <div class="flex flex-row flex-shrink-0 items-center text-center">
-                    <a href="{{ route('welcome') }}" class="flex flex-row flex-shrink-0 items-center text-center rounded-md {{ request()->routeIs('welcome') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-white" aria-current="page">
+                    <a href="{{ route('welcome') }}" class="flex flex-row flex-shrink-0 items-center text-center rounded-md px-3 py-2 text-sm myBtn text-white" aria-current="page">
                         <img class="h-10 w-10 mr-3.5" src="{{ asset('assets/imgs/logo.ico') }}" alt="The Booksmith">
                         <h1 class="myh1 hidden lg:block">The Booksmith</h1>
                     </a>
-                    <!-- <img class="h-10 w-10 mr-3.5" src="{{ asset('assets/imgs/logo.ico') }}" alt="The Booksmith">
-                    <h1 class="myh1">The Booksmith</h1> -->
+
                 </div>
                 <div class="hidden lg:block">
                     <div class="ml-10 flex items-baseline space-x-4">

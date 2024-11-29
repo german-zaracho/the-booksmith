@@ -47,6 +47,8 @@ Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function 
         return view('dashboard');
     })->name('dashboard');
 
+    //News
+
     Route::get('/newsManagement', [\App\Http\controllers\NewsController::class, 'newsManagement'])
         ->name('news.management');
 
@@ -67,6 +69,29 @@ Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function 
 
     Route::put('/news/edit/{id}', [\App\Http\controllers\NewsController::class, 'update'])
         ->name('news.update');
+
+    //Shop
+
+    Route::get('/shopManagement', [\App\Http\controllers\ShopController::class, 'booksManagement'])
+        ->name('shop.management');
+
+    Route::get('/shop/edit/{id}', [\App\Http\controllers\ShopController::class, 'edit'])
+        ->name('shop.edit');
+
+    Route::put('/shop/edit/{id}', [\App\Http\controllers\ShopController::class, 'update'])
+        ->name('shop.update');
+
+    Route::get('/shop/post', [\App\Http\controllers\ShopController::class, 'create'])
+        ->name('shop.create');
+
+    Route::post('/shop/post', [\App\Http\controllers\ShopController::class, 'store'])
+        ->name('shop.store');
+
+    Route::get('/shop/{id}/delete', [\App\Http\controllers\ShopController::class, 'delete'])
+        ->name('shop.delete');
+
+    Route::delete('/shop/{id}/delete', [\App\Http\controllers\ShopController::class, 'destroy'])
+        ->name('shop.destroy');
 });
 
 Route::middleware('auth')->group(function () {

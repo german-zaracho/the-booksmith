@@ -7,22 +7,22 @@
     <x-slot:title>Subscriptions</x-slot:title>
 
     @if(session('success'))
-        <div class="bg-green-500 text-white p-4 mb-4 rounded">
-            {{ session('success') }}
-        </div>
+    <div class="bg-green-500 text-white p-4 mb-4 rounded">
+        {{ session('success') }}
+    </div>
     @elseif(session('error'))
-        <div class="bg-red-500 text-white p-4 mb-4 rounded">
-            {{ session('error') }}
-        </div>
+    <div class="bg-red-500 text-white p-4 mb-4 rounded">
+        {{ session('error') }}
+    </div>
     @endif
-    
+
     <h1 class="text-3xl font-bold text-center mb-8">Choose Your Plan</h1>
 
     <div class="flex flex-wrap gap-8 justify-center mx-auto max-w-7xl">
 
         @foreach($book_plans as $book_plan)
 
-        <div class="w-full sm:w-1/2 lg:w-1/3 xl:w-1/5">
+        <div class="w-full sm:w-1/2 lg:w-1/3 xl:w-1/5 shadow-2xl ring-2 ring-black ring-opacity-10 max-768:max-w-[400px] max-768:m-[20px]">
 
             <div class="bg-white rounded-lg shadow-md p-6 flex flex-col h-full">
                 <h3 class="text-xl font-semibold mb-4">{{$book_plan->name}}</h3>
@@ -41,10 +41,13 @@
                     </li>
                 </ul>
 
-                <form action="{{ route('subscribe', $book_plan->book_plan_id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300">Subscribe</button>
-                </form>
+                <div class="flex items-center justify-center">
+                    <form action="{{ route('subscribe', $book_plan->book_plan_id) }}" method="POST" >
+                        @csrf
+                        <button type="submit" class="bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300">Subscribe</button>
+                    </form>
+                </div>
+
 
             </div>
 
