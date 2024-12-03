@@ -22,4 +22,23 @@ class CheckAdminRole
         // Continuar con la petición si el usuario es admin
         return $next($request);
     }
+
+    //el de abajo es que tengo que agregar
+    // public function handle(Request $request, Closure $next)
+    // {
+    //     // Verificar si el usuario está autenticado
+    //     if (!Auth::check()) {
+    //         // Redirigir al usuario al login si no está autenticado
+    //         return redirect()->route('login');
+    //     }
+
+    //     // Verificar si el usuario tiene role_id == 1
+    //     if (Auth::user()->role_id !== 1) {
+    //         // Redirigir al usuario al home si no tiene role_id == 1
+    //         return redirect()->route('/news');
+    //     }
+
+    //     // Continuar con la petición si el usuario es admin
+    //     return $next($request);
+    // }
 }

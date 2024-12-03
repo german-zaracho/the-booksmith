@@ -32,6 +32,12 @@ class SubscriptionsController extends Controller
 
     public function finalizeSubscription($bookPlanId)
     {
+        
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to subscribe!');
+        }
+
         // Asegurarse de que el usuario esté autenticado
         $user = Auth::user();
 

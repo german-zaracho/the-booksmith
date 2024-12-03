@@ -40,6 +40,30 @@ Route::post('/checkout/{book_plan_id}', [\App\Http\controllers\SubscriptionsCont
 //     ->middleware(\App\Http\Middleware\CheckAdminRole::class)
 //     ->name('admin.users');
 
+// Maybe i should delete this, i don't know just yet
+// Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])
+//     ->middleware(\App\Http\Middleware\CheckAdminRole::class)
+//     ->name('admin.users');
+
+// Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function () {
+//     Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])->name('admin.users');
+//     Route::get('/dashboard', function () {
+//         return view('dashboard');
+//     })->name('dashboard');
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(CheckAdminRole::class)
+//     ->name('dashboard');
+
+//Alternative with more routes
+// Route::middleware([CheckAdminRole::class])->group(function () {
+//     Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])->name('admin.users');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
+
+
 //Alternative with more routes
 Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function () {
     Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])->name('admin.users');
