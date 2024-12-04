@@ -35,38 +35,16 @@ Route::post('/subscribe/{book_plan_id}', [\App\Http\controllers\SubscriptionsCon
 Route::post('/checkout/{book_plan_id}', [\App\Http\controllers\SubscriptionsController::class, 'finalizeSubscription'])
     ->name('checkout');
 
-// Maybe i should delete this, i don't know just yet
-// Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])
-//     ->middleware(\App\Http\Middleware\CheckAdminRole::class)
-//     ->name('admin.users');
-
-// Maybe i should delete this, i don't know just yet
-// Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])
-//     ->middleware(\App\Http\Middleware\CheckAdminRole::class)
-//     ->name('admin.users');
-
-// Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function () {
-//     Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])->name('admin.users');
-//     Route::get('/dashboard', function () {
-//         return view('dashboard');
-//     })->name('dashboard');
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(CheckAdminRole::class)
-//     ->name('dashboard');
-
-//Alternative with more routes
-// Route::middleware([CheckAdminRole::class])->group(function () {
-//     Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])->name('admin.users');
-    // Route::get('/dashboard', function () {
-    //     return view('dashboard');
-    // })->name('dashboard');
-
-
 //Alternative with more routes
 Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function () {
+    // Users
     Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])->name('admin.users');
+    Route::get('/admin/create', [\App\Http\controllers\UserController::class, 'createNewUser'])->name('admin.create');
+    Route::delete('/admin/users/{id}', [\App\Http\controllers\UserController::class, 'destroy'])->name('admin.destroy');
+    Route::get('/admin/users/{id}/edit', [\App\Http\controllers\UserController::class, 'edit'])->name('admin.edit');
+    Route::put('/admin/users/{id}', [\App\Http\controllers\UserController::class, 'update'])->name('admin.update');
+
+    //Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
