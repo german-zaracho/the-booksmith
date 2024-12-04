@@ -7,9 +7,18 @@
     <x-slot:title>News</x-slot:title>
     <h1 class="text-3xl font-bold text-center mb-8">News</h1>
     <div class="mx-auto max-w-[1080px]">
+    @auth
+        @if (Auth::check() && Auth::user()->role_id == 1)
+            <div class="flex justify-end mt-3 mr-[1%]">
+                <a href="{{ route('news.create') }}" class="w-[130px] inline-flex justify-center items-center px-3 py-2 text-sm font-medium hover:text-[#f09224] text-white hover:bg-white rounded-lg bg-black focus:ring-4 focus:outline-none focus:ring-orange-300">
+                + Create news
+                </a>
+            </div>
+        @endif
+    @endauth
 
         @foreach($news as $new)
-        <div class="my-2.5 p-6 bg-white rounded-lg dark:bg-[#f09224] mb-[20px] shadow-2xl ring-2 ring-black ring-opacity-10">
+        <div class="my-2.5 p-6 bg-white rounded-lg dark:bg-[#f09224] mb-[20px] mx-[1%] shadow-2xl ring-2 ring-black ring-opacity-10">
             <div class="flex justify-between items-center space-x-[30px]">
                 <div class="myNews flex space-x-4">
                     <div class="w-[120px] h-[120px] overflow-hidden rounded-md flex-shrink-0">
