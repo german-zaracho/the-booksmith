@@ -2,7 +2,7 @@
     <x-slot:title>Register</x-slot:title>
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#f09224]">
 
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-brown-gradient overflow-hidden sm:rounded-lg shadow-2xl ring-2 ring-black ring-opacity-10">
+        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-gray-100 overflow-hidden sm:rounded-lg shadow-2xl ring-2 ring-black ring-opacity-10">
 
             <form method="POST" action="{{ route('register') }}">
                 @csrf
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="flex items-center justify-end mt-4">
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f09224]" href="{{ route('login') }}">
                         {{ __('Already registered?') }}
                     </a>
 
