@@ -12,6 +12,19 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
+     * Display the user's profile info.
+     */
+    public function profile(Request $request): View
+    {
+        // return view('profile.profile', [
+        //     'user' => $request->user(),
+        // ]);
+
+        $user = $request->user()->load('subscription'); // Carga la relación de suscripción
+        return view('profile.profile', compact('user'));
+    }
+
+    /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
@@ -30,6 +43,11 @@ class ProfileController extends Controller
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
+        }
+
+        // so we can store images
+        if($request->hasFile('img')) {
+            $input['img'] = $request->file('img')->store('profilePhoto', 'public');
         }
 
         $request->user()->save();

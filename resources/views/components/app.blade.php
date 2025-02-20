@@ -73,7 +73,7 @@
                                     </div>
 
                                     <div class="md:hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" id="user-menu">
-                                        <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                                        <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <a :href="route('logout')"
@@ -171,7 +171,7 @@
 
             </div>
             <div class="mt-3 space-y-1 px-2 flex flex-col items-center justify-center w-[100%]">
-                <a href="{{ route('profile.edit') }}" class="w-[100%] text-center block rounded-md px-3 py-2 mr-3 ml-3 text-base myBtn text-gray-400 hover:bg-[#fcba50] hover:text-white">Your Profile</a>
+                <a href="{{ route('profile') }}" class="w-[100%] text-center block rounded-md px-3 py-2 mr-3 ml-3 text-base myBtn text-gray-400 hover:bg-[#fcba50] hover:text-white">Your Profile</a>
                 <form method="POST" action="{{ route('logout') }}" class="w-[100%] mr-3 ml-3">
                     @csrf
                     <a :href="route('logout')"

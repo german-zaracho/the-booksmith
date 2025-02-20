@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
                 'email' => 'ad@min.com',
                 'password' => Hash::make('asdasd12'),
                 'role_id' => 1,
+                'img' => 'default.jpg', // Imagen por defecto
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -31,6 +32,7 @@ class UserSeeder extends Seeder
             'email' => 'u@ser.com',
             'password' => Hash::make('asdasd12'),
             'role_id' => 2,
+            'img' => 'default.jpg', // Imagen por defecto
             'created_at' => now(),
             'updated_at' => now(),
         ]);
