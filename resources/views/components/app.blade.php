@@ -68,7 +68,18 @@
                                     <div class="user-myProfile-button">
                                         <button type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                             <span class="absolute -inset-1.5"></span>
-                                            <img class="h-8 w-8 rounded-full" src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="">
+
+                                            @php
+                                            $user = Auth::user();
+                                            @endphp
+
+                                            @if($user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)))
+                                            <img src="{{ asset('storage/profilePhoto/' . $user->img) }}" alt="Profile image" class="h-8 w-8 rounded-full">
+                                            @else
+                                            <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
+                                                class="h-8 w-8 rounded-full">
+                                            @endif
+
                                         </button>
                                     </div>
 

@@ -39,20 +39,46 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        // $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Actualizar nombre si se proporciona
+        if ($request->filled('name')) {
+            $user->name = $request->input('name');
         }
+
+        // if ($user->isDirty('email')) {
+        //     $user->email_verified_at = null;
+        // }
+
+        // Actualizar email solo si es diferente al actual
+        if ($request->filled('email') && trim($request->email) !== trim($user->email)) {
+            $user->email = strtolower(trim($request->email)); // Normalizar el email
+            $user->email_verified_at = null;
+        }
+
+        // Guardar la imagen actual antes de actualizar
+        $oldImage = $user->img;
 
         // so we can store images
-        if($request->hasFile('img')) {
-            $input['img'] = $request->file('img')->store('profilePhoto', 'public');
+        if ($request->hasFile('img')) {
+            $image = $request->file('img');
+            $imageName = $image->hashName(); // Genera un nombre aleatorio
+            $image->storeAs('profilePhoto', $imageName, 'public'); // Guarda en storage
+
+            $user->img = $imageName; // Guarda solo el nombre de la imagen en la base de datos
+
+            if ($oldImage && file_exists(public_path('storage/profilePhoto/' . $oldImage))) {
+                unlink(public_path('storage/profilePhoto/' . $oldImage));
+            }
         }
 
-        $request->user()->save();
+        $user->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')
+            ->withErrors([]) // Borra errores de validación previos
+            ->with('status', 'profile-updated');
     }
 
     /**

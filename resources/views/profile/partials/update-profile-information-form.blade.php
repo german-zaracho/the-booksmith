@@ -54,15 +54,19 @@
 
             <div class="relative flex items-center justify-center">
                 <div class="w-[200px] h-[200px] rounded-full overflow-hidden bg-gray-200 shadow-2xl ring-2 ring-black ring-opacity-10 m-auto">
-                    <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
-                        class="h-full w-full object-cover">
+
+                    <img 
+                    id="profile-preview"
+                    src="{{ $user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)) ? asset('storage/profilePhoto/' . $user->img) : asset('assets/imgs/anakin-skywalker.webp') }}"
+                    alt="Profile image" class="h-full w-full object-cover">
+
                 </div>
             </div>
 
             <div class="mt-4 flex items-center  text-sm leading-6 text-gray-600">
                 <label for="img" class="relative flex items-center justify-center cursor-pointer w-[150px] h-[40px] rounded-md bg-white font-semibold text-black focus-within:outline-none focus-within:ring-2 focus-within:ring-black focus-within:ring-offset-2 hover:text-black">
                     <span>Upload a file</span>
-                    <input id="img" name="img" type="file" class="sr-only">
+                    <input id="img" name="img" type="file" class="sr-only" accept="image/*">
                 </label>
                 <p class="pl-1">or drag and drop</p>
             </div>
@@ -83,3 +87,17 @@
         </div>
     </form>
 </section>
+
+<script>
+    document.getElementById('img').addEventListener('change', function(event) {
+        const file = event.target.files[0]; 
+        // Obtiene el archivo seleccionado
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile-preview').src = e.target.result; // Actualiza la imagen con la vista previa
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

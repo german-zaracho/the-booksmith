@@ -17,15 +17,20 @@
                             <div class="flex gap-4 flex-col max-w-[250px] items-center">
 
                                 <div class="relative flex items-center justify-center">
-                                    <!-- <div class="w-[200px] h-[200px] rounded-full overflow-hidden bg-gray-200 shadow-2xl ring-2 ring-black ring-opacity-10 m-auto">
+                                    <div class="w-[200px] h-[200px] rounded-full overflow-hidden bg-gray-200 shadow-2xl ring-2 ring-black ring-opacity-10 m-auto">
+
+                                    @if($user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)))
+                                    
+                                    <img src="{{ asset('storage/profilePhoto/' . $user->img) }}" alt="Profile image" class="h-full w-full object-cover">
+
+                                    @else
+
                                         <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
                                             class="h-full w-full object-cover">
-                                    </div> -->
+                                            
+                                    @endif
 
-                                    
-                                    <img src="{{ \Illuminate\Support\Facades\Storage::url('profilePhoto/sGENQZkgojRmujof8uQ2bEU2w5id0JQfhyarx7rm.png') }}" alt="card-image" class="object-cover w-full h-full" />
-
-
+                                    </div>
 
                                 </div>
                             </div>
