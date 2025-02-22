@@ -29,6 +29,7 @@
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="py-2 px-4 border-b text-left text-sm font-medium">ID</th>
+                        <th class="py-2 px-4 border-b text-left text-sm font-medium">Img</th>
                         <th class="py-2 px-4 border-b text-left text-sm font-medium">Name</th>
                         <th class="py-2 px-4 border-b text-left text-sm font-medium">Email</th>
                         <th class="py-2 px-4 border-b text-left text-sm font-medium">Role</th>
@@ -40,6 +41,14 @@
                     @foreach($users as $user)
                     <tr>
                         <td class="py-2 px-4 border-b text-sm">{{ $user->user_id }}</td>
+                        <td class="py-2 px-4 border-b text-sm">
+                            @if($user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)))
+                            <img src="{{ asset('storage/profilePhoto/' . $user->img) }}" alt="Profile image" class="h-8 w-8 rounded-full">
+                            @else
+                            <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
+                                class="h-8 w-8 rounded-full">
+                            @endif
+                        </td>
                         <td class="py-2 px-4 border-b text-sm">{{ $user->name }}</td>
                         <td class="py-2 px-4 border-b text-sm">{{ $user->email }}</td>
                         <td class="py-2 px-4 border-b text-sm">{{ $user->role_id === 1 ? 'Admin' : 'User' }}</td>

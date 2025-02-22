@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Subscription;
+use App\Models\SubscriptionUser;
+use App\Models\Plan;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -52,14 +55,36 @@ class UserController extends Controller
             return redirect()->route('admin.users')->with('error', 'Cannot delete this user.');
         }
 
+        $userImage = $user->img;
+
+        // Eliminar las relaciones en la tabla subscriptions_has_users
+        $user->subscriptions()->detach();
+
+        // Verificar y eliminar la suscripción si ya no tiene usuarios asociados
+        foreach ($user->subscriptions as $subscription) {
+            // Si la suscripción no tiene otros usuarios, la eliminamos
+            if ($subscription->users->isEmpty()) {
+                $subscription->delete(); // Eliminar la suscripción
+            }
+        }
+
         $user->delete();
+
+        if ($userImage && file_exists(public_path('storage/profilePhoto/' . $userImage))) {
+            unlink(public_path('storage/profilePhoto/' . $userImage));
+        }
+
         return redirect()->route('admin.users')->with('success', 'User deleted successfully.');
     }
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        return view('admin.users_edit', compact('user'));
+        // $user = User::findOrFail($id);
+        // return view('admin.users_edit', compact('user'));
+
+        $user = User::with('subscription')->findOrFail($id);
+        $book_plans = Plan::all(); // Obtener todos los planes disponibles
+        return view('admin.users_edit', compact('user', 'book_plans'));
     }
 
     public function update(Request $request, $id)
@@ -68,13 +93,55 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $id . ',user_id',
+            'img' => 'nullable|image|max:2048',
+            'subscription' => 'nullable|exists:book_plans,book_plan_id', // Validar que el plan seleccionado sea válido
         ]);
-    
+
         $user = User::findOrFail($id);
+
+        $oldImage = $user->img;
+
+        // Si se sube una nueva imagen
+        if ($request->hasFile('img')) {
+            $image = $request->file('img');
+            $imageName = $image->hashName(); // Genera un nombre aleatorio
+            $image->storeAs('profilePhoto', $imageName, 'public'); // Guarda en storage
+
+            $user->img = $imageName; // Guarda solo el nombre de la imagen en la base de datos
+
+            // Eliminar la imagen anterior si existe
+            if ($oldImage && file_exists(public_path('storage/profilePhoto/' . $oldImage))) {
+                unlink(public_path('storage/profilePhoto/' . $oldImage));
+            }
+        }
+
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'img' => $user->img,
         ]);
+
+        // Verificamos si el usuario tiene una suscripción actual
+        if ($request->has('subscription')) {
+            if ($user->subscription) {
+                // Si el usuario tiene una suscripción existente, actualizamos el plan
+                $user->subscription->update(['book_plan_fk' => $request->subscription]);
+            } else {
+                // Si el usuario no tiene una suscripción, creamos una nueva suscripción
+                $newSubscription = Subscription::create([
+                    'start_date' => Carbon::now(),
+                    'end_date' => Carbon::now()->addMonth(),
+                    'is_active' => true,
+                    'book_plan_fk' => $request->subscription,
+                ]);
+
+                // Asociamos el usuario con la nueva suscripción
+                SubscriptionUser::create([
+                    'subscription_fk' => $newSubscription->subscription_id,
+                    'user_fk' => $user->user_id,
+                ]);
+            }
+        }
 
         return redirect()->route('admin.users')->with('success', 'User updated successfully.');
     }

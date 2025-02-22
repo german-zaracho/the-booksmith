@@ -173,7 +173,14 @@
         <div class="border-t border-gray-700 pb-3 pt-4">
             <div class="flex items-center justify-center px-5">
                 <div class="flex-shrink-0">
-                    <img class="h-10 w-10 rounded-full" src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="user image">
+
+                    @if($user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)))
+                    <img src="{{ asset('storage/profilePhoto/' . $user->img) }}" alt="Profile image" class="h-8 w-8 rounded-full">
+                    @else
+                    <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
+                        class="h-8 w-8 rounded-full">
+                    @endif
+
                 </div>
                 <div class="ml-3">
                     <div class="text-base myBtn leading-none text-white">{{ Auth::user()->name }}</div>

@@ -10,8 +10,8 @@ class SubscriptionUser extends Model
     use HasFactory;
 
     protected $table = 'subscriptions_has_users';
-
-    public $timestamps = false;
+    //descomenta la linea de abajo si no se guarda bien la fecha de la subscription
+    // public $timestamps = false;
 
     protected $fillable = ['subscription_fk', 'user_fk'];
 

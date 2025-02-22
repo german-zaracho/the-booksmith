@@ -68,7 +68,6 @@
                     <span>Upload a file</span>
                     <input id="img" name="img" type="file" class="sr-only" accept="image/*">
                 </label>
-                <p class="pl-1">or drag and drop</p>
             </div>
 
         </div>
