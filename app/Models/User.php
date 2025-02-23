@@ -64,8 +64,4 @@ class User extends Authenticatable
         )->where('is_active', true); // Solo la suscripción activa
     }
 
-    public function subscriptions()
-    {
-        return $this->belongsToMany(Subscription::class, 'subscriptions_has_users', 'user_fk', 'subscription_fk');
-    }
 }

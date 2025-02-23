@@ -7,6 +7,16 @@
     <x-slot:title>Shop</x-slot:title>
     <h1 class="text-3xl font-bold text-center mb-8">Shop</h1>
 
+    @auth
+        @if (Auth::check() && Auth::user()->role_id == 1)
+            <div class="flex justify-end mt-3 mr-[1%]">
+                <a href="{{ route('shop.create') }}" class="w-[130px] inline-flex justify-center items-center px-3 py-2 text-sm font-medium hover:text-[#f09224] text-white hover:bg-white rounded-lg bg-black focus:ring-4 focus:outline-none focus:ring-orange-300">
+                + New Book
+                </a>
+            </div>
+        @endif
+    @endauth
+
     <div class="flex flex-wrap justify-center gap-8 m-auto">
 
         @foreach($books as $book)

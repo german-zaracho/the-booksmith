@@ -17,12 +17,15 @@
         <h2 class="text-2xl font-bold mb-4 text-black">User list</h2>
 
 
+        
+
         <div class="mb-4">
-            <a href="{{ route('admin.create') }}"
+            <button id="openCreateUserModal"
                 class="bg-black text-white px-4 py-2 hover:text-[#f09224] hover:bg-white rounded-lg focus:ring-4 focus:outline-none focus:ring-orange-300">
                 Create New User
-            </a>
+            </button>
         </div>
+        
 
         <div class="w-full">
             <table class=" bg-white border border-gray-200 m-auto">
@@ -103,6 +106,44 @@
         </div>
     </div>
 
+    <!-- Modal para Crear Nuevo Usuario -->
+    <div id="createUserModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-1/3">
+            <h2 class="text-lg font-bold mb-4 text-black">Create New User</h2>
+            <form id="createUserForm" method="POST" action="{{ route('admin.createUser') }}">
+                @csrf
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" name="name"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="email" name="email"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="text" id="password" name="password"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required>
+                </div>
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="closeCreateUserModal"
+                        class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                        Confirm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </x-app>
 
 <script>
@@ -153,4 +194,27 @@
             }
         });
     });
+
+    // new user
+        document.addEventListener('DOMContentLoaded', () => {
+            const openModalBtn = document.getElementById('openCreateUserModal');
+            const closeModalBtn = document.getElementById('closeCreateUserModal');
+            const modal = document.getElementById('createUserModal');
+
+            openModalBtn.addEventListener('click', () => {
+                fetch("{{ route('admin.getNewUserDefaults') }}")
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('name').value = data.name;
+                        document.getElementById('email').value = data.email;
+                        document.getElementById('password').value = data.password;
+                        modal.classList.remove('hidden');
+                    });
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+        });
+
 </script>

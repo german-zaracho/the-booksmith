@@ -27,22 +27,61 @@ class UserController extends Controller
     }
 
     // Método para crear un nuevo usuario
-    public function createNewUser()
-    {
-        // Obtener el último ID de usuario existente
-        $lastId = User::max('user_id');
-        $newId = $lastId ? $lastId + 1 : 2; // Si no hay usuarios, inicia en 2
+    // public function createNewUser()
+    // {
+    //     // Obtener el último ID de usuario existente
+    //     $lastId = User::max('user_id');
+    //     $newId = $lastId ? $lastId + 1 : 2; // Si no hay usuarios, inicia en 2
 
-        // Crear el nuevo usuario
-        $user = User::create([
+    //     // Crear el nuevo usuario
+    //     $user = User::create([
+    //         'user_id' => $newId,
+    //         'name' => $newId . 'username',
+    //         'email' => $newId . 'new@user.com',
+    //         'password' => bcrypt('asdasd12'), // Generar una contraseña segura
+    //         'role_id' => 2, // Rol de usuario común
+    //     ]);
+
+    //     return redirect()->route('admin.users')->with('success', 'New user created successfully!');
+    // }
+
+    public function createNewUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $lastId = User::max('user_id');
+        $newId = $lastId ? $lastId + 1 : 2;
+
+        User::create([
             'user_id' => $newId,
-            'name' => $newId . 'username',
-            'email' => $newId . 'new@user.com',
-            'password' => bcrypt('asdasd12'), // Generar una contraseña segura
-            'role_id' => 2, // Rol de usuario común
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role_id' => 2,
         ]);
 
         return redirect()->route('admin.users')->with('success', 'New user created successfully!');
+    }
+
+    public function getNewUserDefaults()
+    {
+        $lastId = User::max('user_id');
+        $newId = $lastId ? $lastId + 1 : 2;
+
+        return response()->json([
+            'name' => $newId . 'username',
+            'email' => $newId . 'new@user.com',
+            'password' => 'asdasd12' // Se enviará sin encriptar para mostrarlo en el form
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        return $this->createNewUser($request);
     }
 
     // Método para eliminar un usuario
@@ -57,16 +96,14 @@ class UserController extends Controller
 
         $userImage = $user->img;
 
-        // Eliminar las relaciones en la tabla subscriptions_has_users
-        $user->subscriptions()->detach();
+        // Obtener todas las suscripciones del usuario
+        $subscriptionIds = SubscriptionUser::where('user_fk', $user->user_id)->pluck('subscription_fk');
 
-        // Verificar y eliminar la suscripción si ya no tiene usuarios asociados
-        foreach ($user->subscriptions as $subscription) {
-            // Si la suscripción no tiene otros usuarios, la eliminamos
-            if ($subscription->users->isEmpty()) {
-                $subscription->delete(); // Eliminar la suscripción
-            }
-        }
+        // Eliminar las relaciones en la tabla subscriptions_has_users
+        SubscriptionUser::where('user_fk', $user->user_id)->delete();
+
+        // Eliminar las suscripciones en la tabla subscriptions
+        Subscription::whereIn('subscription_id', $subscriptionIds)->delete();
 
         $user->delete();
 

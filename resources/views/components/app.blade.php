@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 </head>
 
-<body class=" bg-[#f09224]">
+<body class=" bg-[#f09224] max-w-[2000px] mx-auto">
     <div class=" bg-[#f09224]">
 
         <nav class="bg-brown-gradient">

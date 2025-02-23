@@ -19,8 +19,8 @@
 
         @foreach($news as $new)
         <div class="my-2.5 p-6 bg-[#f09224] rounded-lg mb-[20px] mx-[1%] shadow-2xl ring-2 ring-black ring-opacity-10">
-            <div class="flex justify-between items-center space-x-[30px]">
-                <div class="myNews flex space-x-4">
+            <div class="flex justify-between items-center space-x-[30px] bg-[#f09224]">
+                <div class="myNews flex space-x-4 bg-[#f09224]">
                     <div class="w-[120px] h-[120px] overflow-hidden rounded-md flex-shrink-0">
                         @if($new->img && \Illuminate\Support\Facades\Storage::has($new->img))
                         <img src="{{ \Illuminate\Support\Facades\Storage::url($new->img) }}" alt="card-image" class="object-cover w-full h-full" />

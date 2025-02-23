@@ -39,7 +39,9 @@ Route::post('/checkout/{book_plan_id}', [\App\Http\controllers\SubscriptionsCont
 Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function () {
     // Users
     Route::get('/admin/users', [\App\Http\controllers\UserController::class, 'index'])->name('admin.users');
-    Route::get('/admin/create', [\App\Http\controllers\UserController::class, 'createNewUser'])->name('admin.create');
+    Route::get('/admin/create', [\App\Http\controllers\UserController::class, 'createNewUser'])->name('admin.createUser');
+    Route::post('/admin/create', [\App\Http\controllers\UserController::class, 'store'])->name('admin.store'); // Nueva ruta para crear usuarios, post para enviar los datos
+    Route::get('/admin/get-new-user-defaults', [\App\Http\controllers\UserController::class, 'getNewUserDefaults'])->name('admin.getNewUserDefaults'); //another one
     Route::delete('/admin/users/{id}', [\App\Http\controllers\UserController::class, 'destroy'])->name('admin.destroy');
     Route::get('/admin/users/{id}/edit', [\App\Http\controllers\UserController::class, 'edit'])->name('admin.edit');
     Route::put('/admin/users/{id}', [\App\Http\controllers\UserController::class, 'update'])->name('admin.update');
