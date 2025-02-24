@@ -17,7 +17,7 @@
         <h2 class="text-2xl font-bold mb-4 text-black">User list</h2>
 
 
-        
+
 
         <div class="mb-4">
             <button id="openCreateUserModal"
@@ -25,7 +25,7 @@
                 Create New User
             </button>
         </div>
-        
+
 
         <div class="w-full">
             <table class=" bg-white border border-gray-200 m-auto">
@@ -196,25 +196,25 @@
     });
 
     // new user
-        document.addEventListener('DOMContentLoaded', () => {
-            const openModalBtn = document.getElementById('openCreateUserModal');
-            const closeModalBtn = document.getElementById('closeCreateUserModal');
-            const modal = document.getElementById('createUserModal');
+    document.addEventListener('DOMContentLoaded', () => {
+        const openModalBtn = document.getElementById('openCreateUserModal');
+        const closeModalBtn = document.getElementById('closeCreateUserModal');
+        const modal = document.getElementById('createUserModal');
 
-            openModalBtn.addEventListener('click', () => {
-                fetch("{{ route('admin.getNewUserDefaults') }}")
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('name').value = data.name;
-                        document.getElementById('email').value = data.email;
-                        document.getElementById('password').value = data.password;
-                        modal.classList.remove('hidden');
-                    });
-            });
-
-            closeModalBtn.addEventListener('click', () => {
-                modal.classList.add('hidden');
-            });
+        openModalBtn.addEventListener('click', () => {
+            fetch("{{ route('admin.getNewUserDefaults') }}")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('name').value = data.name;
+                    document.getElementById('email').value = data.email;
+                    document.getElementById('password').value = data.password;
+                    modal.classList.remove('hidden');
+                });
         });
 
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+    });
 </script>

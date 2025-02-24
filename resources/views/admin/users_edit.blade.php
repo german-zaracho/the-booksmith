@@ -2,6 +2,27 @@
     <x-slot:title>User - Edit</x-slot:title>
     <div class="m-[20px]">
         <h1 class="text-xl font-bold mb-6">Edit User</h1>
+
+        <button type="button" onclick="openResetPasswordModal()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-4">
+            Reset Password
+        </button>
+
+        <!-- Modal de confirmación -->
+        <div id="resetPasswordModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white p-6 rounded shadow-md w-[300px]">
+                <h2 class="text-lg text-black font-bold mb-4">Confirm Reset</h2>
+                <p class="text-black" >Are you sure you want to reset this user's password?</p>
+                <div class="mt-4 flex justify-between">
+                    <button onclick="closeResetPasswordModal()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Cancel</button>
+                    <form action="{{ route('admin.resetPassword', $user->user_id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <form action="{{ route('admin.update', $user->user_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -108,4 +129,13 @@
         // Inicializar la descripción al cargar la página
         updateDescription();
     });
+
+    function openResetPasswordModal() {
+        document.getElementById('resetPasswordModal').classList.remove('hidden');
+    }
+
+    function closeResetPasswordModal() {
+        document.getElementById('resetPasswordModal').classList.add('hidden');
+    }
+    
 </script>

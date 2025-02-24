@@ -14,11 +14,6 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    // public function index()
-    // {
-    //     $users = User::all();
-    //     return view('admin.users', compact('users'));
-    // }
 
     public function index()
     {
@@ -50,7 +45,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|min:6|string',
         ]);
 
         $lastId = User::max('user_id');
@@ -116,12 +111,18 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        // $user = User::findOrFail($id);
-        // return view('admin.users_edit', compact('user'));
 
         $user = User::with('subscription')->findOrFail($id);
         $book_plans = Plan::all(); // Obtener todos los planes disponibles
         return view('admin.users_edit', compact('user', 'book_plans'));
+    }
+
+    public function resetPassword($id)
+    {
+        $user = User::findOrFail($id);
+        $user->update(['password' => bcrypt('asdasd12')]);
+
+        return redirect()->route('admin.edit', $user->user_id)->with('success', 'Password reset successfully.');
     }
 
     public function update(Request $request, $id)
