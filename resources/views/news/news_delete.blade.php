@@ -8,7 +8,7 @@
 
     <div class="m-[30px] flex flex-col justify-center items-center">
         <h1>Title: "{{ $news->title }}"</h1>
-        <img src="{{ \Illuminate\Support\Facades\Storage::url($news->img) }}" alt="img" title="img" class="h-56 w-40 object-cover mt-4 rounded-[30px]">
+        <img src="{{ asset('storage/news/' . $news->img) }}" alt="img" title="img" class="h-56 w-40 object-cover mt-4 rounded-[30px]">
         <p class="mt-4">Description: "{{ $news->description }}"</p>
 
         <form action="{{ route('news.destroy', ['id' => $news->news_id]) }}" method="post" class="mt-4">

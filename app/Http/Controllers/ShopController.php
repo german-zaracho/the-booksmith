@@ -64,8 +64,15 @@ class ShopController extends Controller
         $input = $request->all();
 
         // so we can store images
-        if($request->hasFile('image')) {
-            $input['image'] = $request->file('image')->store('images', 'public');
+        // if ($request->hasFile('image')) {
+        //     $input['image'] = $request->file('image')->store('images', 'public');
+        // }
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = $file->hashName(); // Genera un nombre único
+            $file->storeAs('books', $fileName); // Guarda en storage/app/public/images
+            $input['image'] = $fileName; // Guarda solo el nombre en la BD
         }
 
         Book::create($input);
@@ -84,21 +91,26 @@ class ShopController extends Controller
             ->with('feedback.message', 'The book <b>' . e($input['title']) . '</b> was uploaded successfully');
     }
 
-    public function destroy(int $id) 
+    public function destroy(int $id)
     {
         $books = Book::findOrFail($id);
-        $books->delete($id);
 
-        if(
-            $books->image &&
-            Storage::has($books->image)
-        ) {
-            Storage::delete($books->image);
+        if ($books->image && Storage::exists('books/' . $books->image)) {
+            Storage::delete('books/' . $books->image);
         }
 
+        $books->delete($id);
+
+        // if (
+        //     $books->image &&
+        //     Storage::has($books->image)
+        // ) {
+        //     Storage::delete($books->image);
+        // }
+
         return redirect()
-        ->route('shop.management')
-        ->with('feedback.message', 'The book <b>"' . e($books['title']) . '"</b> was deleted successfully');
+            ->route('shop.management')
+            ->with('feedback.message', 'The book <b>"' . e($books['title']) . '"</b> was deleted successfully');
     }
 
     public function delete(int $id)
@@ -144,21 +156,32 @@ class ShopController extends Controller
         $input = $request->except(['_token', '_method']);
         $oldImage = $books->image;
 
+        // if ($request->hasFile('image')) {
+        //     $input['image'] = $request->file('image')->store('images', 'public');
+        // }
+
         if ($request->hasFile('image')) {
-            $input['image'] = $request->file('image')->store('images', 'public');
+            $file = $request->file('image');
+            $fileName = $file->hashName();
+            $file->storeAs('books', $fileName);
+            $input['image'] = $fileName;
+
+            if ($oldImage && Storage::exists('books/' . $oldImage)) {
+                Storage::delete('books/' . $oldImage);
+            }
         }
 
         $books->update($input);
         //check this later
         // $books->genre()->sync($request->input('genre_id', []));
 
-        if (
-            $request->hasFile('image') &&
-            $oldImage &&
-            Storage::has($oldImage)
-        ) {
-            Storage::delete($oldImage);
-        }
+        // if (
+        //     $request->hasFile('image') &&
+        //     $oldImage &&
+        //     Storage::has($oldImage)
+        // ) {
+        //     Storage::delete($oldImage);
+        // }
 
         return redirect()
             ->route('shop.management')

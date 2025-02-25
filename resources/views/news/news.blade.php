@@ -22,8 +22,8 @@
             <div class="flex justify-between items-center space-x-[30px] bg-[#f09224]">
                 <div class="myNews flex space-x-4 bg-[#f09224]">
                     <div class="w-[120px] h-[120px] overflow-hidden rounded-md flex-shrink-0">
-                        @if($new->img && \Illuminate\Support\Facades\Storage::has($new->img))
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($new->img) }}" alt="card-image" class="object-cover w-full h-full" />
+                        @if($new->img && file_exists(public_path('storage/news/' . $new->img)))
+                        <img src="{{ asset('storage/news/' . $new->img) }}" alt="card-image" class="object-cover w-full h-full" />
                         @else
                         <img src="{{ asset('assets/imgs/no-image.jpg') }}" alt="card-image" class="object-cover w-full h-full" />
                         @endif

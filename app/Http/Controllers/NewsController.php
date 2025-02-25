@@ -53,27 +53,32 @@ class NewsController extends Controller
                 // 'img.required' => 'You have to add an image.',
             ]
         );
-        
+
         $input = $request->all();
 
         // so we can store images
-        if($request->hasFile('img')) {
-            $input['img'] = $request->file('img')->store('imgs', 'public');
+        // if($request->hasFile('img')) {
+        //     $input['img'] = $request->file('img')->store('imgs', 'public');
+        // }
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('news', 'public');
+            $input['img'] = basename($path); // Extrae solo el nombre del archivo
         }
 
         News::create($input);
-        
+
         return redirect()
             ->route('news.management')
             ->with('feedback.message', 'The news <b>"' . e($input['title']) . '"</b> was uploaded successfully');
     }
 
-    public function destroy(int $id) 
+    public function destroy(int $id)
     {
         $news = News::findOrFail($id);
         $news->delete($id);
 
-        if(
+        if (
             $news->img &&
             Storage::has($news->img)
         ) {
@@ -81,8 +86,8 @@ class NewsController extends Controller
         }
 
         return redirect()
-        ->route('news.management')
-        ->with('feedback.message', 'The news <b>"' . e($news['title']) . '"</b> was deleted successfully');
+            ->route('news.management')
+            ->with('feedback.message', 'The news <b>"' . e($news['title']) . '"</b> was deleted successfully');
     }
 
     public function delete(int $id)
@@ -120,19 +125,29 @@ class NewsController extends Controller
         $input = $request->except(['_token', '_method']);
         $oldImg = $news->img;
 
-        if($request->hasFile('img')) {
-            $input['img'] = $request->file('img')->store('imgs', 'public');
+        // if($request->hasFile('img')) {
+        //     $input['img'] = $request->file('img')->store('imgs', 'public');
+        // }
+
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('news', 'public');
+            $input['img'] = basename($path); // Extrae solo el nombre del archivo
+
+            // Eliminar la imagen anterior si existe
+            if ($oldImg && Storage::disk('public')->exists("news/{$oldImg}")) {
+                Storage::disk('public')->delete("news/{$oldImg}");
+            }
         }
 
         $news->update($input);
-        
-        if(
-            $request->hasFile('img') &&
-            $oldImg &&
-            Storage::has($oldImg)
-        ) {
-            Storage::delete($oldImg);
-        }
+
+        // if(
+        //     $request->hasFile('img') &&
+        //     $oldImg &&
+        //     Storage::has($oldImg)
+        // ) {
+        //     Storage::delete($oldImg);
+        // }
 
 
         return redirect()
@@ -140,4 +155,3 @@ class NewsController extends Controller
             ->with('feedback.message', 'The news <b>"' . e($news->title) . '"</b> was updated successfully');
     }
 }
-

@@ -85,8 +85,8 @@
 
                             <div class="max-h-[220px] max-w-[160px]">
                                 <p class="mb-[10px]">Current image</p>
-                                @if($books->image && \Illuminate\Support\Facades\Storage::has($books->image))
-                                <img src="{{ \Illuminate\Support\Facades\Storage::url($books->image) }}" alt="card-image" class="object-cover w-full h-full rounded-[20px]" />
+                                @if($books->image && file_exists(public_path('storage/books/' . $books->image)))
+                                <img src="{{ asset('storage/books/' . $books->image) }}" alt="img" title="img" class="h-56 w-40 object-cover">
                                 @else
                                 <img src="{{ asset('assets/imgs/no-image.jpg') }}" alt="card-image" class="object-cover w-full h-full" />
                                 @endif
@@ -127,21 +127,21 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                            <label for="genre_fk" class="block text-sm font-medium leading-6 text-gray-900">Genre</label>
-                            <div class="mt-2">
-                                <select id="genre_fk" name="genre_fk" autocomplete="genre" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-black sm:max-w-xs sm:text-sm sm:leading-6">
-                                    <option value="1">Terror</option>
-                                    <option value="2">Adventure</option>
-                                    <option value="3">Juvenile</option>
-                                    <option value="4">Warlike</option>
-                                    <option value="5">Romance</option>
-                                    <option value="6">Science fiction</option>
-                                    <option value="7">Fantasy</option>
-                                    <option value="8">Historic</option>
-                                    <option value="9">Thriller</option>
-                                </select>
-                            </div>
+                        <label for="genre_fk" class="block text-sm font-medium leading-6 text-gray-900">Genre</label>
+                        <div class="mt-2">
+                            <select id="genre_fk" name="genre_fk" autocomplete="genre" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-black sm:max-w-xs sm:text-sm sm:leading-6">
+                                <option value="1">Terror</option>
+                                <option value="2">Adventure</option>
+                                <option value="3">Juvenile</option>
+                                <option value="4">Warlike</option>
+                                <option value="5">Romance</option>
+                                <option value="6">Science fiction</option>
+                                <option value="7">Fantasy</option>
+                                <option value="8">Historic</option>
+                                <option value="9">Thriller</option>
+                            </select>
                         </div>
+                    </div>
 
                 </div>
 

@@ -8,7 +8,11 @@
 
     <div class="m-[30px] flex flex-col justify-center items-center">
         <h1>Title: "{{ $books->title }}"</h1>
-        <img src="{{ \Illuminate\Support\Facades\Storage::url($books->image) }}" alt="img" title="img" class="h-56 w-40 object-cover mt-4 rounded-[30px]">
+        @if($books->image && file_exists(public_path('storage/books/' . $books->image)))
+        <img src="{{ asset('storage/books/' . $books->image) }}" alt="img" title="img" class="h-56 w-40 object-cover">
+        @else
+        <img src="{{ asset('assets/imgs/no-image.jpg') }}" alt="card-image" class="object-cover w-full h-full" />
+        @endif
         <p class="mt-4">Synopsis: "{{ $books->synopsis }}"</p>
 
         <form action="{{ route('shop.destroy', ['id' => $books->book_id]) }}" method="post" class="mt-4">

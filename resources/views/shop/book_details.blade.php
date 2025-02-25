@@ -3,7 +3,11 @@
 
     <div class="mx-auto my-[30px] p-[30px] max-w-[800px] flex flex-col items-center rounded-[20px] shadow-2xl ring-2 ring-black ring-opacity-10">
         <h1>{{ $books->title }}</h1>
-        <img src="{{ \Illuminate\Support\Facades\Storage::url($books->image) }}" alt="img" title="img" class="h-56 w-40 object-cover rounded-[20px] mt-3">
+        @if($books->image && file_exists(public_path('storage/books/' . $books->image)))
+        <img src="{{ asset('storage/books/' . $books->image) }}" alt="img" title="img" class="h-56 w-40 object-cover">
+        @else
+        <img src="{{ asset('assets/imgs/no-image.jpg') }}" alt="card-image" class="object-cover w-full h-full" />
+        @endif
         <p class="text-black mt-3">Author: {{ $books->author }}</p>
         <p class="text-black mt-3 max-w-[600px]">Synopsis: {{ $books->synopsis }}</p>
         <p class="text-black mt-3">Editorial: {{ $books->editorial }}</p>
@@ -14,13 +18,13 @@
     </div>
 
     @auth
-        @if (Auth::check() && Auth::user()->role_id == 1)
-            <div class="flex justify-end mt-3 mr-[15%]">
-                <a href="{{ route('shop.management') }}" class="w-[130px] inline-flex justify-center items-center px-3 py-2 text-sm font-medium hover:text-[#f09224] text-white hover:bg-white rounded-lg bg-black focus:ring-4 focus:outline-none focus:ring-orange-300">
-                    Go to Shop Management
-                </a>
-            </div>
-        @endif
+    @if (Auth::check() && Auth::user()->role_id == 1)
+    <div class="flex justify-end mt-3 mr-[15%]">
+        <a href="{{ route('shop.management') }}" class="w-[130px] inline-flex justify-center items-center px-3 py-2 text-sm font-medium hover:text-[#f09224] text-white hover:bg-white rounded-lg bg-black focus:ring-4 focus:outline-none focus:ring-orange-300">
+            Go to Shop Management
+        </a>
+    </div>
+    @endif
     @endauth
 
 </x-app>

@@ -2,7 +2,7 @@
     <x-slot:title>News details</x-slot:title>
     <div class="mx-auto my-[30px] p-[30px] max-w-[800px] flex flex-col justify-center items-center rounded-[20px]  shadow-2xl ring-2 ring-black ring-opacity-10">
         <h1>{{ $news->title }}</h1>
-        <img src="{{ \Illuminate\Support\Facades\Storage::url($news->img) }}" alt="img" title="img" class="object-cover h-[200px] w-40 rounded-[20px] mt-4">
+        <img src="{{ asset('storage/news/' . $news->img) }}" alt="img" title="img" class="object-cover h-[200px] w-40 rounded-[20px] mt-4">
         <p class="text-black mt-4 max-w-[600px]">[Description]: {{ $news->description }}</p>
     </div>
     @auth

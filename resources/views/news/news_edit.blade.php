@@ -57,8 +57,8 @@
 
                             <div class="max-h-[220px] max-w-[160px]">
                                 <p class="mb-[10px]">Current image</p>
-                                @if($news->img && \Illuminate\Support\Facades\Storage::has($news->img))
-                                <img src="{{ \Illuminate\Support\Facades\Storage::url($news->img) }}" alt="card-image" class="object-cover w-full h-full rounded-[20px]" />
+                                @if($news->img && file_exists(public_path('storage/news/' . $news->img)))
+                                <img src="{{ asset('storage/news/' . $news->img) }}" alt="card-image" class="object-cover w-full h-full rounded-[20px]" />
                                 @else
                                 <img src="{{ asset('assets/imgs/no-image.jpg') }}" alt="card-image" class="object-cover w-full h-full" />
                                 @endif
@@ -76,9 +76,7 @@
                                         <input id="img" name="img" type="file" class="sr-only">
                                     </label>
 
-                                    <p class="pl-1 mt-4">or drag and drop</p>
                                 </div>
-                                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
                             </div>
 
                         </div>
