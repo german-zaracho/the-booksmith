@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('title',100);
             $table->text('synopsis');
             $table->string('editorial')->nullable();
-            $table->unsignedInteger('price');
+            // $table->unsignedInteger('price');
+            $table->decimal('price', 8, 2);
             $table->string('image')->nullable();
             $table->string('author')->nullable();
 

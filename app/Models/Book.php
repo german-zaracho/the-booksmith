@@ -36,15 +36,6 @@ class Book extends Model
         'genre_fk.required' => 'You have to choose the genre.',
     ];
 
-    protected function price(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100
-        );
-    }
-
-
     public function genre(): BelongsTo
     {
         return $this->belongsTo(Genre::class, 'genre_fk', 'genre_id');

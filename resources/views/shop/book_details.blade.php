@@ -12,7 +12,8 @@
         <p class="text-black mt-3 max-w-[600px]">Synopsis: {{ $books->synopsis }}</p>
         <p class="text-black mt-3">Editorial: {{ $books->editorial }}</p>
         <p class="text-black mt-3">Genre: {{ $books->genre->name }}</p>
-        <p>Price: ${{ number_format($books->price * 100, 2) }}</p>
+        <p>Price: ${{ $books->price }}</p>
+        
 
         <button class="mt-3 bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300 w-[100px]">Buy</button>
     </div>
