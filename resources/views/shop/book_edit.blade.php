@@ -123,21 +123,35 @@
                         @enderror
                     </div>
 
+                    @php
+
+                    $genres = [
+                    1 => 'Terror',
+                    2 => 'Adventure',
+                    3 => 'Juvenile',
+                    4 => 'Warlike',
+                    5 => 'Romance',
+                    6 => 'Science fiction',
+                    7 => 'Fantasy',
+                    8 => 'Historic',
+                    9 => 'Thriller'
+                    ];
+
+                    @endphp
+
+
                     <div class="sm:col-span-3">
                         <label for="genre_fk" class="block text-sm font-medium leading-6 text-gray-900">Genre</label>
                         <div class="mt-2">
+
                             <select id="genre_fk" name="genre_fk" autocomplete="genre" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-black sm:max-w-xs sm:text-sm sm:leading-6">
-                                <option value="1">Terror</option>
-                                <option value="2">Adventure</option>
-                                <option value="3">Juvenile</option>
-                                <option value="4">Warlike</option>
-                                <option value="5">Romance</option>
-                                <option value="6">Science fiction</option>
-                                <option value="7">Fantasy</option>
-                                <option value="8">Historic</option>
-                                <option value="9">Thriller</option>
+                                @foreach ($genres as $id => $name)
+                                <option value="{{ $id }}" {{ old('genre_fk', $books->genre_fk) == $id ? 'selected' : '' }}>{{ $name }}</option>
+                                @endforeach
                             </select>
+
                         </div>
+
                     </div>
 
                 </div>

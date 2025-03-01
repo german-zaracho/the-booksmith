@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\BookPlan;
+use App\Models\Subscription;
+use App\Models\SubscriptionUser;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -20,8 +24,15 @@ class ProfileController extends Controller
         //     'user' => $request->user(),
         // ]);
 
-        $user = $request->user()->load('subscription'); // Carga la relación de suscripción
-        return view('profile.profile', compact('user'));
+        // $user = $request->user()->load('subscription'); // Carga la relación de suscripción
+        // return view('profile.profile', compact('user'));
+
+        $user = $request->user()->load('subscription.bookPlan'); // Cargar la relación completa
+
+        // Obtener todos los planes de libros
+        $book_plans = BookPlan::all();
+
+        return view('profile.profile', compact('user', 'book_plans'));
     }
 
     /**
@@ -101,4 +112,54 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Update user's subscription.
+     */
+    public function updateSubscription(Request $request)
+    {
+        $request->validate([
+            'subscription' => 'nullable|exists:book_plans,book_plan_id',
+        ]);
+
+        $user = Auth::user();
+
+        // Verificar si el usuario ya tiene una suscripción
+        $currentSubscription = $user->subscription;
+
+        if ($request->subscription) {
+            // Si el usuario elige un nuevo plan
+            $bookPlan = BookPlan::findOrFail($request->subscription);
+
+            if ($currentSubscription) {
+                // Actualizar la suscripción existente
+                $currentSubscription->update([
+                    'book_plan_fk' => $bookPlan->book_plan_id,
+                    'start_date' => Carbon::now(),
+                    'end_date' => Carbon::now()->addMonth(),
+                ]);
+            } else {
+                // Crear una nueva suscripción si el usuario no tenía ninguna
+                $subscription = Subscription::create([
+                    'start_date' => Carbon::now(),
+                    'end_date' => Carbon::now()->addMonth(),
+                    'is_active' => true,
+                    'book_plan_fk' => $bookPlan->book_plan_id,
+                ]);
+
+                SubscriptionUser::create([
+                    'subscription_fk' => $subscription->subscription_id,
+                    'user_fk' => $user->user_id,
+                ]);
+            }
+        } else {
+            // Si el usuario selecciona "No subscription", eliminar la suscripción
+            if ($currentSubscription) {
+                $currentSubscription->delete();
+            }
+        }
+
+        return redirect()->route('profile')->with('success', 'Subscription updated successfully!');
+    }
+    
 }
