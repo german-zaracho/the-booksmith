@@ -82,10 +82,11 @@
                         </div>
 
                         <div class="mt-6">
-                            <a href="{{ route('profile.edit') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                            <button id="openCancelModal" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
                                 {{ __('Cancel Subscription') }}
-                            </a>
+                            </button>
                         </div>
+
                     </section>
                 </div>
             </div>
@@ -126,6 +127,28 @@
                 </div>
             </div>
 
+            <!-- Modal de confirmación para cancelar suscripción -->
+            <div id="cancelSubscriptionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+                <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">Are you sure you want to cancel your subscription?</h2>
+
+                    <div class="mt-4 flex justify-between">
+                        <form action="{{ route('profile.subscription.cancel') }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                                Confirm
+                            </button>
+                        </form>
+
+                        <button type="button" id="closeCancelModal" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg m-[20px]">
                 <div class="max-w-xl">
@@ -162,6 +185,12 @@
             const closeModalBtn = document.getElementById('closeSubscriptionModal');
             const modal = document.getElementById('subscriptionModal');
 
+            const openCancelModalBtn = document.getElementById('openCancelModal');
+            const closeCancelModalBtn = document.getElementById('closeCancelModal');
+            const cancelSubscriptionModal = document.getElementById('cancelSubscriptionModal');
+
+            //Modal de edit subscription
+
             openModalBtn.addEventListener('click', function() {
                 modal.classList.remove('hidden');
             });
@@ -176,6 +205,24 @@
                     modal.classList.add('hidden');
                 }
             });
+
+            //Modal de cancel subscription
+
+            openCancelModalBtn.addEventListener('click', function() {
+                cancelSubscriptionModal.classList.remove('hidden');
+            });
+
+            closeCancelModalBtn.addEventListener('click', function() {
+                cancelSubscriptionModal.classList.add('hidden');
+            });
+
+            // Cierra el modal si el usuario hace clic fuera de él
+            cancelSubscriptionModal.addEventListener('click', function(event) {
+                if (event.target === cancelSubscriptionModal) {
+                    cancelSubscriptionModal.classList.add('hidden');
+                }
+            });
+
         });
     </script>
 

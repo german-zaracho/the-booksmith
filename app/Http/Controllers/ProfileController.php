@@ -161,5 +161,29 @@ class ProfileController extends Controller
 
         return redirect()->route('profile')->with('success', 'Subscription updated successfully!');
     }
+
+    /**
+     * Cancel user's subscription.
+     */
+    public function cancelSubscription(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        // Verificar si el usuario tiene una suscripción activa
+        if ($user->subscription) {
+            $subscription = $user->subscription;
+
+            // Eliminar la relación en la tabla intermedia
+            $subscription->users()->detach($user->user_id);
+
+            // Verificar si la suscripción ya no tiene más usuarios asociados
+            if ($subscription->users()->count() === 0) {
+                $subscription->delete(); // Eliminar la suscripción si ya no está asociada a nadie
+            }
+        }
+
+        return redirect()->route('profile')->with('success', 'Subscription canceled successfully!');
+    }
+
     
 }
