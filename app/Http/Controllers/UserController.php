@@ -160,24 +160,52 @@ class UserController extends Controller
         ]);
 
         // Verificamos si el usuario tiene una suscripción actual
-        if ($request->has('subscription')) {
-            if ($user->subscription) {
-                // Si el usuario tiene una suscripción existente, actualizamos el plan
-                $user->subscription->update(['book_plan_fk' => $request->subscription]);
-            } else {
-                // Si el usuario no tiene una suscripción, creamos una nueva suscripción
-                $newSubscription = Subscription::create([
-                    'start_date' => Carbon::now(),
-                    'end_date' => Carbon::now()->addMonth(),
-                    'is_active' => true,
-                    'book_plan_fk' => $request->subscription,
-                ]);
+        // if ($request->has('subscription')) {
+        //     if ($user->subscription) {
+        //         // Si el usuario tiene una suscripción existente, actualizamos el plan
+        //         $user->subscription->update(['book_plan_fk' => $request->subscription]);
+        //     } else {
+        //         // Si el usuario no tiene una suscripción, creamos una nueva suscripción
+        //         $newSubscription = Subscription::create([
+        //             'start_date' => Carbon::now(),
+        //             'end_date' => Carbon::now()->addMonth(),
+        //             'is_active' => true,
+        //             'book_plan_fk' => $request->subscription,
+        //         ]);
 
-                // Asociamos el usuario con la nueva suscripción
-                SubscriptionUser::create([
-                    'subscription_fk' => $newSubscription->subscription_id,
-                    'user_fk' => $user->user_id,
-                ]);
+        //         // Asociamos el usuario con la nueva suscripción
+        //         SubscriptionUser::create([
+        //             'subscription_fk' => $newSubscription->subscription_id,
+        //             'user_fk' => $user->user_id,
+        //         ]);
+        //     }
+        // }
+
+        if ($request->has('subscription')) {
+            if ($request->subscription === null) {
+                // Si se seleccionó "No subscription / Cancel Subscription", eliminamos la suscripción
+                if ($user->subscription) {
+                    SubscriptionUser::where('user_fk', $user->user_id)->delete();
+                    $user->subscription->delete();
+                }
+            } else {
+                if ($user->subscription) {
+                    // Si el usuario tiene una suscripción existente, la actualizamos
+                    $user->subscription->update(['book_plan_fk' => $request->subscription]);
+                } else {
+                    // Si el usuario no tiene una suscripción, creamos una nueva
+                    $newSubscription = Subscription::create([
+                        'start_date' => Carbon::now(),
+                        'end_date' => Carbon::now()->addMonth(),
+                        'is_active' => true,
+                        'book_plan_fk' => $request->subscription,
+                    ]);
+
+                    SubscriptionUser::create([
+                        'subscription_fk' => $newSubscription->subscription_id,
+                        'user_fk' => $user->user_id,
+                    ]);
+                }
             }
         }
 

@@ -43,9 +43,10 @@ Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function 
     Route::post('/admin/create', [\App\Http\controllers\UserController::class, 'store'])->name('admin.store'); // Nueva ruta para crear usuarios, post para enviar los datos
     Route::get('/admin/get-new-user-defaults', [\App\Http\controllers\UserController::class, 'getNewUserDefaults'])->name('admin.getNewUserDefaults'); //another one
     Route::delete('/admin/users/{id}', [\App\Http\controllers\UserController::class, 'destroy'])->name('admin.destroy');
-    Route::put('/admin/users/{id}/reset-password', [\App\Http\controllers\UserController::class, 'resetPassword'])->name('admin.resetPassword');// another one
+    Route::put('/admin/users/{id}/reset-password', [\App\Http\controllers\UserController::class, 'resetPassword'])->name('admin.resetPassword'); // another one
     Route::get('/admin/users/{id}/edit', [\App\Http\controllers\UserController::class, 'edit'])->name('admin.edit');
     Route::put('/admin/users/{id}', [\App\Http\controllers\UserController::class, 'update'])->name('admin.update');
+
 
     //Dashboard
     Route::get('/dashboard', function () {
@@ -97,6 +98,27 @@ Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function 
 
     Route::delete('/shop/{id}/delete', [\App\Http\controllers\ShopController::class, 'destroy'])
         ->name('shop.destroy');
+
+    //Plan
+
+    Route::get('/planManagement', [\App\Http\controllers\PlanController::class, 'planManagement'])
+        ->name('plan.management');
+
+    Route::get('/plan/edit/{id}', [\App\Http\controllers\PlanController::class, 'edit'])
+        ->name('plan.edit');
+
+    Route::put('/plan/edit/{id}', [\App\Http\controllers\PlanController::class, 'update'])
+        ->name('plan.update');
+
+    Route::get('/plan/{id}/delete', [\App\Http\controllers\PlanController::class, 'delete'])
+        ->name('plan.delete');
+
+    Route::get('/plan/{id}', [\App\Http\controllers\PlanController::class, 'planDetails'])
+        ->name('plan.detail')
+        ->whereNumber('id');
+
+    Route::get('/plan/post', [\App\Http\controllers\PlanController::class, 'create'])
+        ->name('plan.create');
 });
 
 Route::middleware('auth')->group(function () {

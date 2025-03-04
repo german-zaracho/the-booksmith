@@ -11,7 +11,7 @@
         <div id="resetPasswordModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
             <div class="bg-white p-6 rounded shadow-md w-[300px]">
                 <h2 class="text-lg text-black font-bold mb-4">Confirm Reset</h2>
-                <p class="text-black" >Are you sure you want to reset this user's password?</p>
+                <p class="text-black">Are you sure you want to reset this user's password?</p>
                 <div class="mt-4 flex justify-between">
                     <button onclick="closeResetPasswordModal()" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Cancel</button>
                     <form action="{{ route('admin.resetPassword', $user->user_id) }}" method="POST">
@@ -62,12 +62,19 @@
 
             </div>
 
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium">Email</label>
+                <input type="email" name="email" id="email" value="{{ $user->email }}"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            </div>
+
             <!-- Subscription -->
             <div class="mb-4">
                 <label for="subscription" class="block text-sm font-medium">Subscription</label>
 
                 <select name="subscription" id="subscription" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                    <option value="" data-description="No hay una descripción" {{ is_null($user->subscription) ? 'selected' : '' }}>No subscription</option>
+                    <option value="" data-description="No hay una descripción" {{ is_null($user->subscription) ? 'selected' : '' }}>No subscription / Cancel Subscription</option>
                     @foreach($book_plans as $book_plan)
                     <option value="{{ $book_plan->book_plan_id }}" data-description="{{ $book_plan->description }}"
                         {{ $user->subscription && $user->subscription->bookPlan->book_plan_id == $book_plan->book_plan_id ? 'selected' : '' }}>
@@ -81,17 +88,6 @@
 
             </div>
 
-
-
-            <!-- Email -->
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium">Email</label>
-                <input type="email" name="email" id="email" value="{{ $user->email }}"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-            </div>
-
-
-
             <!-- Botón para confirmar -->
             <div class="flex justify-end">
                 <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
@@ -99,6 +95,9 @@
                 </button>
             </div>
         </form>
+
+
+
     </div>
 </x-app>
 
@@ -137,5 +136,4 @@
     function closeResetPasswordModal() {
         document.getElementById('resetPasswordModal').classList.add('hidden');
     }
-    
 </script>

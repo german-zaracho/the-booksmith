@@ -32,6 +32,15 @@
                 </a>
             </div>
 
+            <!-- Plan Subscription Management -->
+            <div class="bg-white rounded-lg shadow-md p-6 text-center flex flex-col items-center justify-center">
+                <h2 class="text-xl font-semibold mb-4">Plan Management</h2>
+                <p class="text-gray-600 mb-6">Manage, create, edit, and delete plan subscriptions.</p>
+                <a href="{{ route('plan.management') }}" class="bg-red-600 text-white rounded-md py-2 px-4 hover:bg-red-700 transition duration-300">
+                    Go to Plan Management
+                </a>
+            </div>
+
         </div>
 
 
