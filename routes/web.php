@@ -119,6 +119,12 @@ Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function 
 
     Route::get('/plan/post', [\App\Http\controllers\PlanController::class, 'create'])
         ->name('plan.create');
+
+    Route::post('/plan/post', [\App\Http\controllers\PlanController::class, 'store'])
+        ->name('plan.store');
+
+    Route::delete('/plan/{id}/delete', [\App\Http\controllers\PlanController::class, 'destroy'])
+        ->name('plan.destroy');
 });
 
 Route::middleware('auth')->group(function () {

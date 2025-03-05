@@ -7,10 +7,16 @@
     <x-slot:title>Plan Management</x-slot:title>
     <h1 class="text-3xl font-bold text-center mb-8">Plan Management</h1>
 
+    @if(session('feedback.message'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        {!! session('feedback.message') !!}
+    </div>
+    @endif
+
     <div class="m-[30px]">
         <div class="m-[30px]">
             <div class="flex justify-end mt-3">
-                <a href="{{ route('plan.create') }}" class="w-[130px] inline-flex justify-center items-center px-3 py-2 text-sm font-medium hover:text-[#f09224] text-white hover:bg-white rounded-lg bg-black focus:ring-4 focus:outline-none focus:ring-orange-300">+ Create Plan</a>
+                <a href="{{ route('plan.create') }}" class="w-[180px] inline-flex justify-center items-center px-3 py-2 text-sm font-medium hover:text-[#f09224] text-white hover:bg-white rounded-lg bg-black focus:ring-4 focus:outline-none focus:ring-orange-300">+ Create a New Plan</a>
             </div>
 
             <div class="overflow-x-auto">
