@@ -13,9 +13,17 @@
         <p class="text-black mt-3">Editorial: {{ $books->editorial }}</p>
         <p class="text-black mt-3">Genre: {{ $books->genre->name }}</p>
         <p>Price: ${{ $books->price }}</p>
-        
 
-        <button class="mt-3 bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300 w-[100px]">Buy</button>
+
+        <!-- <button class="mt-3 bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300 w-[150px]">Add To Cart</button> -->
+
+        <form id="addToCartForm" data-url="{{ route('cart.add', ['bookId' => $books->book_id]) }}">
+            @csrf
+            <button type="button" class="mt-3 bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300 w-[150px]">
+                Add To Cart
+            </button>
+        </form>
+
     </div>
 
     @auth

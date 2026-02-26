@@ -48,7 +48,7 @@
                             @if($user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)))
                             <img src="{{ asset('storage/profilePhoto/' . $user->img) }}" alt="Profile image" class="h-8 w-8 rounded-full">
                             @else
-                            <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
+                            <img src="{{ asset('assets/imgs/user.png') }}" alt="Profile image"
                                 class="h-8 w-8 rounded-full">
                             @endif
                         </td>

@@ -24,7 +24,7 @@
 
                                         @else
 
-                                        <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
+                                        <img src="{{ asset('assets/imgs/user.png') }}" alt="Profile image"
                                             class="h-full w-full object-cover">
 
                                         @endif

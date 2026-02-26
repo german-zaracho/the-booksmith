@@ -11,6 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=shopping_cart" />
 </head>
 
 <body class=" bg-[#f09224] max-w-[2000px] mx-auto">
@@ -34,10 +35,10 @@
                         <div class="hidden lg:block">
                             <div class="ml-10 flex items-baseline space-x-4">
 
-                                <a href="{{ route('welcome') }}" class="rounded-md {{ request()->routeIs('welcome') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-white  hover:bg-[#fcba50] hover:text-white" aria-current="page">Home</a>
-                                <a href="{{ route('news') }}" class="rounded-md {{ request()->routeIs('news') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-gray-300 hover:bg-[#fcba50] hover:text-white">News</a>
-                                <a href="{{ route('shop') }}" class="rounded-md {{ request()->routeIs('shop') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-gray-300 hover:bg-[#fcba50] hover:text-white">Shop</a>
-                                <a href="{{ route('subscriptions') }}" class="rounded-md  {{ request()->routeIs('subscriptions') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-gray-300 hover:bg-[#fcba50] hover:text-white">Subscriptions</a>
+                                <a href="{{ route('welcome') }}" class="rounded-md {{ request()->routeIs('welcome') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-black  hover:bg-[#fcba50] hover:text-white pt-[6px]" aria-current="page">Home</a>
+                                <a href="{{ route('news') }}" class="rounded-md {{ request()->routeIs('news') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-black hover:bg-[#fcba50] hover:text-white">News</a>
+                                <a href="{{ route('shop') }}" class="rounded-md {{ request()->routeIs('shop') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-black hover:bg-[#fcba50] hover:text-white">Shop</a>
+                                <a href="{{ route('subscriptions') }}" class="rounded-md  {{ request()->routeIs('subscriptions') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-black hover:bg-[#fcba50] hover:text-white">Subscriptions</a>
 
                             </div>
 
@@ -51,11 +52,20 @@
                         <div class="hidden lg:flex lg:flex-row">
                             <a
                                 href="{{ url('/dashboard') }}"
-                                class="rounded-md  {{ request()->routeIs('/dashboard') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-gray-300 hover:bg-[#fcba50] hover:text-white">
+                                class="rounded-md  {{ request()->routeIs('/dashboard') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm 
+                                myBtn text-black hover:bg-[#fcba50] hover:text-white">
                                 Dashboard
                             </a>
                         </div>
                         @endif
+
+                        <div class="hidden lg:flex lg:flex-row h-9 w-9 rounded-full  hover:bg-[#fcba50] bg-[#f09224]  hover:text-white ml-[36px] cursor-pointer">
+                            <a href="{{ route('cart') }}" class="flex flex-row flex-shrink-0 m-auto">
+                                <span class=" material-symbols-outlined m-auto">
+                                    shopping_cart
+                                </span>
+                            </a>
+                        </div>
 
                         <!-- My Profile -->
                         <div class="hidden lg:block">
@@ -74,10 +84,10 @@
                                             @endphp
 
                                             @if($user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)))
-                                            <img src="{{ asset('storage/profilePhoto/' . $user->img) }}" alt="Profile image" class="h-8 w-8 rounded-full">
+                                            <img src="{{ asset('storage/profilePhoto/' . $user->img) }}" alt="Profile image" class="h-9 w-9 rounded-full">
                                             @else
-                                            <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
-                                                class="h-8 w-8 rounded-full">
+                                            <img src="{{ asset('assets/imgs/user.png') }}" alt="Profile image"
+                                                class="h-9 w-9 rounded-full">
                                             @endif
 
                                         </button>
@@ -169,6 +179,14 @@
         </a>
         @endif
 
+        <a
+            href="{{ url('/cart') }}"
+            class="rounded-md flex justify-center mb-3 mr-3 ml-3 {{ request()->routeIs('/dashboard') ? 'bg-[#f09224]' :''}} px-3 py-2 text-sm myBtn text-gray-300 hover:bg-[#fcba50] hover:text-white">
+            <span class="material-symbols-outlined m-auto">
+                shopping_cart
+            </span>
+        </a>
+
         <!-- My Profile -->
         <div class="border-t border-gray-700 pb-3 pt-4">
             <div class="flex items-center justify-center px-5">
@@ -177,7 +195,7 @@
                     @if($user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)))
                     <img src="{{ asset('storage/profilePhoto/' . $user->img) }}" alt="Profile image" class="h-8 w-8 rounded-full">
                     @else
-                    <img src="{{ asset('assets/imgs/anakin-skywalker.webp') }}" alt="Profile image"
+                    <img src="{{ asset('assets/imgs/user.png') }}" alt="Profile image"
                         class="h-8 w-8 rounded-full">
                     @endif
 

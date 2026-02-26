@@ -128,12 +128,16 @@ Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function 
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile'); // new
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::put('/profile/subscription', [ProfileController::class, 'updateSubscription'])->name('profile.subscription.update'); //newww
-    Route::delete('/profile/subscription', [ProfileController::class, 'cancelSubscription'])->name('profile.subscription.cancel'); //neww
+    Route::put('/profile/subscription', [ProfileController::class, 'updateSubscription'])->name('profile.subscription.update');
+    Route::delete('/profile/subscription', [ProfileController::class, 'cancelSubscription'])->name('profile.subscription.cancel');
+
+    Route::get('/cart', [\App\Http\controllers\CartController::class, 'cart'])->name('cart');
+    Route::post('/cart/add/{bookId}', [\App\Http\controllers\CartController::class, 'addToCart'])->name('cart.add');
+
 });
 
 require __DIR__ . '/auth.php';

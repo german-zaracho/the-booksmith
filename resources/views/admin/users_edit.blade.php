@@ -45,7 +45,7 @@
 
                             <img
                                 id="profile-preview"
-                                src="{{ $user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)) ? asset('storage/profilePhoto/' . $user->img) : asset('assets/imgs/anakin-skywalker.webp') }}"
+                                src="{{ $user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)) ? asset('storage/profilePhoto/' . $user->img) : asset('assets/imgs/user.png') }}"
                                 alt="Profile image" class="h-full w-full object-cover">
 
                         </div>
