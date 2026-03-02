@@ -17,7 +17,7 @@ class SubscriptionSeeder extends Seeder
             [
                 'subscription_id' => 1,
                 'start_date' => '2025-02-26',
-                'end_date' => '2025-02-26',
+                'end_date' => '2025-03-26',
                 'is_active' => 1,
                 'book_plan_fk' => 1,
                 'created_at' => '2025-02-26 00:17:16',

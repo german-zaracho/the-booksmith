@@ -168,90 +168,154 @@ class UserController extends Controller
         return redirect()->route('admin.edit', $user->user_id)->with('success', 'Password reset successfully.');
     }
 
-    public function update(Request $request, $id)
-    {
+    // public function update(Request $request, $id)
+    // {
 
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|email|max:255|unique:users,email,' . $id . ',user_id',
+    //         'img' => 'nullable|image|max:2048',
+    //         'subscription' => 'nullable|exists:book_plans,book_plan_id', // Validar que el plan seleccionado sea válido
+    //     ]);
+
+    //     $user = User::findOrFail($id);
+
+    //     $oldImage = $user->img;
+
+    //     // Si se sube una nueva imagen
+    //     if ($request->hasFile('img')) {
+    //         $image = $request->file('img');
+    //         $imageName = $image->hashName(); // Genera un nombre aleatorio
+    //         $image->storeAs('profilePhoto', $imageName, 'public'); // Guarda en storage
+
+    //         $user->img = $imageName; // Guarda solo el nombre de la imagen en la base de datos
+
+    //         // Eliminar la imagen anterior si existe
+    //         if ($oldImage && file_exists(public_path('storage/profilePhoto/' . $oldImage))) {
+    //             unlink(public_path('storage/profilePhoto/' . $oldImage));
+    //         }
+    //     }
+
+    //     $user->update([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'img' => $user->img,
+    //     ]);
+
+    //     // Verificamos si el usuario tiene una suscripción actual
+    //     // if ($request->has('subscription')) {
+    //     //     if ($user->subscription) {
+    //     //         // Si el usuario tiene una suscripción existente, actualizamos el plan
+    //     //         $user->subscription->update(['book_plan_fk' => $request->subscription]);
+    //     //     } else {
+    //     //         // Si el usuario no tiene una suscripción, creamos una nueva suscripción
+    //     //         $newSubscription = Subscription::create([
+    //     //             'start_date' => Carbon::now(),
+    //     //             'end_date' => Carbon::now()->addMonth(),
+    //     //             'is_active' => true,
+    //     //             'book_plan_fk' => $request->subscription,
+    //     //         ]);
+
+    //     //         // Asociamos el usuario con la nueva suscripción
+    //     //         SubscriptionUser::create([
+    //     //             'subscription_fk' => $newSubscription->subscription_id,
+    //     //             'user_fk' => $user->user_id,
+    //     //         ]);
+    //     //     }
+    //     // }
+
+    //     if ($request->has('subscription')) {
+    //         if ($request->subscription === null) {
+    //             // Si se seleccionó "No subscription / Cancel Subscription", eliminamos la suscripción
+    //             if ($user->subscription) {
+    //                 SubscriptionUser::where('user_fk', $user->user_id)->delete();
+    //                 $user->subscription->delete();
+    //             }
+    //         } else {
+    //             if ($user->subscription) {
+    //                 // Si el usuario tiene una suscripción existente, la actualizamos
+    //                 $user->subscription->update(['book_plan_fk' => $request->subscription]);
+    //             } else {
+    //                 // Si el usuario no tiene una suscripción, creamos una nueva
+    //                 $newSubscription = Subscription::create([
+    //                     'start_date' => Carbon::now(),
+    //                     'end_date' => Carbon::now()->addMonth(),
+    //                     'is_active' => true,
+    //                     'book_plan_fk' => $request->subscription,
+    //                 ]);
+
+    //                 SubscriptionUser::create([
+    //                     'subscription_fk' => $newSubscription->subscription_id,
+    //                     'user_fk' => $user->user_id,
+    //                 ]);
+    //             }
+    //         }
+    //     }
+
+    //     return redirect()->route('admin.users')->with('success', 'User updated successfully.');
+    // }
+public function update(Request $request, $id)
+    {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'  => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $id . ',user_id',
-            'img' => 'nullable|image|max:2048',
-            'subscription' => 'nullable|exists:book_plans,book_plan_id', // Validar que el plan seleccionado sea válido
         ]);
 
         $user = User::findOrFail($id);
 
-        $oldImage = $user->img;
-
-        // Si se sube una nueva imagen
+        // ── Profile photo ─────────────────────────────────────────
         if ($request->hasFile('img')) {
-            $image = $request->file('img');
-            $imageName = $image->hashName(); // Genera un nombre aleatorio
-            $image->storeAs('profilePhoto', $imageName, 'public'); // Guarda en storage
+            $oldImage = $user->img;
+            $image     = $request->file('img');
+            $imageName = $image->hashName();
+            $image->storeAs('profilePhoto', $imageName, 'public');
+            $user->img = $imageName;
 
-            $user->img = $imageName; // Guarda solo el nombre de la imagen en la base de datos
-
-            // Eliminar la imagen anterior si existe
             if ($oldImage && file_exists(public_path('storage/profilePhoto/' . $oldImage))) {
                 unlink(public_path('storage/profilePhoto/' . $oldImage));
             }
         }
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'img' => $user->img,
-        ]);
+        // ── Basic info ────────────────────────────────────────────
+        $user->name  = $request->name;
+        $user->email = $request->email;
 
-        // Verificamos si el usuario tiene una suscripción actual
-        // if ($request->has('subscription')) {
-        //     if ($user->subscription) {
-        //         // Si el usuario tiene una suscripción existente, actualizamos el plan
-        //         $user->subscription->update(['book_plan_fk' => $request->subscription]);
-        //     } else {
-        //         // Si el usuario no tiene una suscripción, creamos una nueva suscripción
-        //         $newSubscription = Subscription::create([
-        //             'start_date' => Carbon::now(),
-        //             'end_date' => Carbon::now()->addMonth(),
-        //             'is_active' => true,
-        //             'book_plan_fk' => $request->subscription,
-        //         ]);
+        // ── Shipping info (nullable — allows clearing fields) ─────
+        $user->phone    = $request->input('phone');
+        $user->address  = $request->input('address');
+        $user->city     = $request->input('city');
+        $user->province = $request->input('province');
+        $user->zip_code = $request->input('zip_code');
 
-        //         // Asociamos el usuario con la nueva suscripción
-        //         SubscriptionUser::create([
-        //             'subscription_fk' => $newSubscription->subscription_id,
-        //             'user_fk' => $user->user_id,
-        //         ]);
-        //     }
-        // }
+        $user->save();
 
+        // ── Subscription ──────────────────────────────────────────
         if ($request->has('subscription')) {
-            if ($request->subscription === null) {
-                // Si se seleccionó "No subscription / Cancel Subscription", eliminamos la suscripción
+            if ($request->subscription === null || $request->subscription === '') {
+                // Cancel subscription
                 if ($user->subscription) {
                     SubscriptionUser::where('user_fk', $user->user_id)->delete();
                     $user->subscription->delete();
                 }
             } else {
                 if ($user->subscription) {
-                    // Si el usuario tiene una suscripción existente, la actualizamos
                     $user->subscription->update(['book_plan_fk' => $request->subscription]);
                 } else {
-                    // Si el usuario no tiene una suscripción, creamos una nueva
                     $newSubscription = Subscription::create([
-                        'start_date' => Carbon::now(),
-                        'end_date' => Carbon::now()->addMonth(),
-                        'is_active' => true,
+                        'start_date'   => Carbon::now(),
+                        'end_date'     => Carbon::now()->addMonth(),
+                        'is_active'    => true,
                         'book_plan_fk' => $request->subscription,
                     ]);
 
                     SubscriptionUser::create([
                         'subscription_fk' => $newSubscription->subscription_id,
-                        'user_fk' => $user->user_id,
+                        'user_fk'         => $user->user_id,
                     ]);
                 }
             }
         }
 
-        return redirect()->route('admin.users')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.edit', $user->user_id)->with('success', 'User updated successfully.');
     }
 }
