@@ -11,15 +11,58 @@ use App\Models\Subscription;
 use App\Models\SubscriptionUser;
 use App\Models\Plan;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
 
+    // public function index()
+    // {
+    //     $users = User::with(['subscription.bookPlan'])->get(); // Carga la suscripción y su plan asociado
+    //     return view('admin.users', compact('users'));
+    // }
+
     public function index()
-    {
-        $users = User::with(['subscription.bookPlan'])->get(); // Carga la suscripción y su plan asociado
-        return view('admin.users', compact('users'));
-    }
+{
+    $users = User::with([
+        'subscription.bookPlan',
+    ])->get();
+
+    // Load purchase history with book details for each user
+    $users->each(function ($user) {
+        $purchases = DB::table('buys_has_users')
+            ->where('buys_has_users.user_fk', $user->user_id)
+            ->join('buys', 'buys_has_users.buy_fk', '=', 'buys.buy_id')
+            ->leftJoin('status', 'buys.status_fk', '=', 'status.status_id')
+            ->select(
+                'buys.buy_id',
+                'buys.total_price',
+                'buys.date',
+                'buys.payment_method',
+                'status.name as status_name'
+            )
+            ->orderByDesc('buys.date')
+            ->get();
+
+        // For each purchase, load the books
+        $purchases->each(function ($purchase) {
+            $purchase->items = DB::table('order_books')
+                ->where('order_books.buy_fk', $purchase->buy_id)
+                ->leftJoin('books', 'order_books.book_fk', '=', 'books.book_id')
+                ->select(
+                    'books.title',
+                    'books.image',
+                    'order_books.quantity',
+                    'order_books.price'
+                )
+                ->get();
+        });
+
+        $user->purchaseHistory = $purchases;
+    });
+
+    return view('admin.users', compact('users'));
+}
 
     // Método para crear un nuevo usuario
     // public function createNewUser()

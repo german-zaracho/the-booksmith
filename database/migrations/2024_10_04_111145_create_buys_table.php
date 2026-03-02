@@ -6,15 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('buys', function (Blueprint $table) {
             $table->id('buy_id');
-            $table->unsignedInteger('total_price');
+            $table->decimal('total_price', 10, 2);
             $table->date('date');
+            $table->string('payment_method', 50)->default('mercadopago');
 
             $table->unsignedBigInteger('status_fk')->nullable();
             $table->foreign('status_fk')->references('status_id')->on('status');
@@ -23,9 +21,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('buys');

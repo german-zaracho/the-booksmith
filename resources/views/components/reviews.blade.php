@@ -1,14 +1,11 @@
-<section class="bg-[#f09224] overflow-hidden">
-    <div class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <h2 class="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            Reviews from our customers
-        </h2>
+<section class="bg-white overflow-hidden pt-0 my-auto">
+    <div class="mx-auto max-w-screen-xl px-4 pt-0 sm:px-6 lg:px-8 lg:pt-0">
 
-        <div class="mt-8">
+        <div class="mt-4">
             <div id="keen-slider" class="keen-slider flex">
 
                 <div class="keen-slider__slide opacity-40 transition-opacity duration-500">
-                    <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8 h-[250px]">
+                    <blockquote class="rounded-lg bg-[#faf7f2] p-6 shadow-sm sm:p-8 h-[250px]">
                         <div class="flex items-center gap-4">
 
                             <div>
@@ -41,7 +38,7 @@
                 </div>
 
                 <div class="keen-slider__slide opacity-40 transition-opacity duration-500">
-                    <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8 h-[250px]">
+                    <blockquote class="rounded-lg bg-[#faf7f2] p-6 shadow-sm sm:p-8 h-[250px]">
                         <div class="flex items-center gap-4">
 
                             <div>
@@ -74,7 +71,7 @@
                 </div>
 
                 <div class="keen-slider__slide opacity-40 transition-opacity duration-500">
-                    <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8 h-[250px]">
+                    <blockquote class="rounded-lg bg-[#faf7f2] p-6 shadow-sm sm:p-8 h-[250px]">
                         <div class="flex items-center gap-4">
 
                             <div>
@@ -107,7 +104,7 @@
                 </div>
 
                 <div class="keen-slider__slide opacity-0 transition-opacity duration-500">
-                    <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8 h-[250px]">
+                    <blockquote class="rounded-lg bg-[#faf7f2] p-6 shadow-sm sm:p-8 h-[250px]">
                         <div class="flex items-center gap-4">
 
                             <div>
@@ -140,7 +137,7 @@
                 </div>
 
                 <div class="keen-slider__slide opacity-40 transition-opacity duration-500">
-                    <blockquote class="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8 h-[250px]">
+                    <blockquote class="rounded-lg bg-[#faf7f2] p-6 shadow-sm sm:p-8 h-[250px]">
                         <div class="flex items-center gap-4">
 
                             <div>

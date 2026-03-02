@@ -49,81 +49,81 @@ Route::middleware([\App\Http\Middleware\CheckAdminRole::class])->group(function 
 
 
     //Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     //News
 
-    Route::get('/newsManagement', [\App\Http\controllers\NewsController::class, 'newsManagement'])
+    Route::get('/newsManagement', [\App\Http\Controllers\NewsController::class, 'newsManagement'])
         ->name('news.management');
 
-    Route::get('/news/post', [\App\Http\controllers\NewsController::class, 'create'])
+    Route::get('/news/post', [\App\Http\Controllers\NewsController::class, 'create'])
         ->name('news.create');
 
-    Route::post('/news/post', [\App\Http\controllers\NewsController::class, 'store'])
+    Route::post('/news/post', [\App\Http\Controllers\NewsController::class, 'store'])
         ->name('news.store');
 
-    Route::get('/news/{id}/delete', [\App\Http\controllers\NewsController::class, 'delete'])
+    Route::get('/news/{id}/delete', [\App\Http\Controllers\NewsController::class, 'delete'])
         ->name('news.delete');
 
-    Route::delete('/news/{id}/delete', [\App\Http\controllers\NewsController::class, 'destroy'])
+    Route::delete('/news/{id}/delete', [\App\Http\Controllers\NewsController::class, 'destroy'])
         ->name('news.destroy');
 
-    Route::get('/news/edit/{id}', [\App\Http\controllers\NewsController::class, 'edit'])
+    Route::get('/news/edit/{id}', [\App\Http\Controllers\NewsController::class, 'edit'])
         ->name('news.edit');
 
-    Route::put('/news/edit/{id}', [\App\Http\controllers\NewsController::class, 'update'])
+    Route::put('/news/edit/{id}', [\App\Http\Controllers\NewsController::class, 'update'])
         ->name('news.update');
 
     //Shop
 
-    Route::get('/shopManagement', [\App\Http\controllers\ShopController::class, 'booksManagement'])
+    Route::get('/shopManagement', [\App\Http\Controllers\ShopController::class, 'booksManagement'])
         ->name('shop.management');
 
-    Route::get('/shop/edit/{id}', [\App\Http\controllers\ShopController::class, 'edit'])
+    Route::get('/shop/edit/{id}', [\App\Http\Controllers\ShopController::class, 'edit'])
         ->name('shop.edit');
 
-    Route::put('/shop/edit/{id}', [\App\Http\controllers\ShopController::class, 'update'])
+    Route::put('/shop/edit/{id}', [\App\Http\Controllers\ShopController::class, 'update'])
         ->name('shop.update');
 
-    Route::get('/shop/post', [\App\Http\controllers\ShopController::class, 'create'])
+    Route::get('/shop/post', [\App\Http\Controllers\ShopController::class, 'create'])
         ->name('shop.create');
 
-    Route::post('/shop/post', [\App\Http\controllers\ShopController::class, 'store'])
+    Route::post('/shop/post', [\App\Http\Controllers\ShopController::class, 'store'])
         ->name('shop.store');
 
-    Route::get('/shop/{id}/delete', [\App\Http\controllers\ShopController::class, 'delete'])
+    Route::get('/shop/{id}/delete', [\App\Http\Controllers\ShopController::class, 'delete'])
         ->name('shop.delete');
 
-    Route::delete('/shop/{id}/delete', [\App\Http\controllers\ShopController::class, 'destroy'])
+    Route::delete('/shop/{id}/delete', [\App\Http\Controllers\ShopController::class, 'destroy'])
         ->name('shop.destroy');
 
     //Plan
 
-    Route::get('/planManagement', [\App\Http\controllers\PlanController::class, 'planManagement'])
+    Route::get('/planManagement', [\App\Http\Controllers\PlanController::class, 'planManagement'])
         ->name('plan.management');
 
-    Route::get('/plan/edit/{id}', [\App\Http\controllers\PlanController::class, 'edit'])
+    Route::get('/plan/edit/{id}', [\App\Http\Controllers\PlanController::class, 'edit'])
         ->name('plan.edit');
 
-    Route::put('/plan/edit/{id}', [\App\Http\controllers\PlanController::class, 'update'])
+    Route::put('/plan/edit/{id}', [\App\Http\Controllers\PlanController::class, 'update'])
         ->name('plan.update');
 
-    Route::get('/plan/{id}/delete', [\App\Http\controllers\PlanController::class, 'delete'])
+    Route::get('/plan/{id}/delete', [\App\Http\Controllers\PlanController::class, 'delete'])
         ->name('plan.delete');
 
-    Route::get('/plan/{id}', [\App\Http\controllers\PlanController::class, 'planDetails'])
+    Route::get('/plan/{id}', [\App\Http\Controllers\PlanController::class, 'planDetails'])
         ->name('plan.detail')
         ->whereNumber('id');
 
-    Route::get('/plan/post', [\App\Http\controllers\PlanController::class, 'create'])
+    Route::get('/plan/post', [\App\Http\Controllers\PlanController::class, 'create'])
         ->name('plan.create');
 
-    Route::post('/plan/post', [\App\Http\controllers\PlanController::class, 'store'])
+    Route::post('/plan/post', [\App\Http\Controllers\PlanController::class, 'store'])
         ->name('plan.store');
 
-    Route::delete('/plan/{id}/delete', [\App\Http\controllers\PlanController::class, 'destroy'])
+    Route::delete('/plan/{id}/delete', [\App\Http\Controllers\PlanController::class, 'destroy'])
         ->name('plan.destroy');
 });
 
@@ -135,9 +135,32 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/subscription', [ProfileController::class, 'updateSubscription'])->name('profile.subscription.update');
     Route::delete('/profile/subscription', [ProfileController::class, 'cancelSubscription'])->name('profile.subscription.cancel');
 
-    Route::get('/cart', [\App\Http\controllers\CartController::class, 'cart'])->name('cart');
-    Route::post('/cart/add/{bookId}', [\App\Http\controllers\CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/subscription/checkout/{book_plan_id}', [\App\Http\Controllers\SubscriptionsController::class, 'checkout'])->name('subscription.checkout');
+    Route::post('/subscription/checkout/{book_plan_id}', [\App\Http\Controllers\SubscriptionsController::class, 'process'])->name('subscription.checkout.process');
+    Route::get('/subscription/payment/success', [\App\Http\Controllers\SubscriptionsController::class, 'paymentSuccess'])->name('subscription.payment.success');
+    Route::get('/subscription/payment/failure', [\App\Http\Controllers\SubscriptionsController::class, 'paymentFailure'])->name('subscription.payment.failure');
+    Route::get('/subscription/payment/pending', [\App\Http\Controllers\SubscriptionsController::class, 'paymentPending'])->name('subscription.payment.pending');
 
+    // Cart
+    Route::get('/cart', [\App\Http\Controllers\CartController::class, 'cart'])->name('cart');
+    Route::post('/cart/add/{bookId}', [\App\Http\Controllers\CartController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/increment/{orderBookId}', [\App\Http\Controllers\CartController::class, 'incrementQuantity'])->name('cart.increment');//?
+    Route::post('/cart/decrement/{orderBookId}', [\App\Http\Controllers\CartController::class, 'decrementQuantity'])->name('cart.decrement');//?
+    Route::delete('/cart/remove/{orderBookId}', [\App\Http\Controllers\CartController::class, 'removeFromCart'])->name('cart.remove');
+    
+
+    // Order history
+    Route::get('/orders/history', [\App\Http\Controllers\CartController::class, 'orderHistory'])->name('orders.history');
+
+    // Checkout (shipping form + payment selection)
+    Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [\App\Http\Controllers\CheckoutController::class, 'process'])->name('checkout.process');
+
+    // MercadoPago callbacks
+    Route::post('/payment/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->name('payment.checkout'); // sacar?
+    Route::get('/payment/success', [\App\Http\Controllers\CheckoutController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/failure', [\App\Http\Controllers\CheckoutController::class, 'paymentFailure'])->name('payment.failure');
+    Route::get('/payment/pending', [\App\Http\Controllers\CheckoutController::class, 'paymentPending'])->name('payment.pending');
 });
 
 require __DIR__ . '/auth.php';

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('order_books', function (Blueprint $table) {
             $table->id('order_book_id');
             $table->unsignedInteger('quantity');
-            $table->unsignedInteger('price');
+            $table->decimal('price', 8, 2);// i changed this 26/2
 
             $table->unsignedBigInteger('book_fk')->nullable();
             $table->foreign('book_fk')->references('book_id')->on('books');

@@ -3,9 +3,8 @@
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Profile Information') }}
         </h2>
-
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Update your account's profile information, email address and shipping details.") }}
         </p>
     </header>
 
@@ -17,86 +16,141 @@
         @csrf
         @method('patch')
 
+        {{-- Name --}}
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
+                :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
+        {{-- Email --}}
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
+                :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-            <div>
-                <p class="text-sm mt-2 text-gray-800">
-                    {{ __('Your email address is unverified.') }}
-
-                    <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        {{ __('Click here to re-send the verification email.') }}
-                    </button>
-                </p>
-
-                @if (session('status') === 'verification-link-sent')
-                <p class="mt-2 font-medium text-sm text-green-600">
-                    {{ __('A new verification link has been sent to your email address.') }}
-                </p>
-                @endif
-            </div>
+                <div>
+                    <p class="text-sm mt-2 text-gray-800">
+                        {{ __('Your email address is unverified.') }}
+                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            {{ __('Click here to re-send the verification email.') }}
+                        </button>
+                    </p>
+                    @if (session('status') === 'verification-link-sent')
+                        <p class="mt-2 font-medium text-sm text-green-600">
+                            {{ __('A new verification link has been sent to your email address.') }}
+                        </p>
+                    @endif
+                </div>
             @endif
         </div>
 
+        {{-- Profile photo --}}
         <div class="flex gap-4 flex-col max-w-[250px] items-center">
-
-            <x-input-label for="img" :value="__('Img')" />
+            <x-input-label for="img" :value="__('Profile Photo')" />
             <x-input-error class="mt-2" :messages="$errors->get('img')" />
 
             <div class="relative flex items-center justify-center">
                 <div class="w-[200px] h-[200px] rounded-full overflow-hidden bg-gray-200 shadow-2xl ring-2 ring-black ring-opacity-10 m-auto">
-
-                    <img 
-                    id="profile-preview"
-                    src="{{ $user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)) ? asset('storage/profilePhoto/' . $user->img) : asset('assets/imgs/user.png') }}"
-                    alt="Profile image" class="h-full w-full object-cover">
-
+                    <img
+                        id="profile-preview"
+                        src="{{ $user->img && file_exists(public_path('storage/profilePhoto/' . $user->img)) ? asset('storage/profilePhoto/' . $user->img) : asset('assets/imgs/user.png') }}"
+                        alt="Profile Photo"
+                        class="w-full h-full object-cover">
                 </div>
             </div>
 
-            <div class="mt-4 flex items-center  text-sm leading-6 text-gray-600">
-                <label for="img" class="relative flex items-center justify-center cursor-pointer w-[150px] h-[40px] rounded-md bg-white font-semibold text-black focus-within:outline-none focus-within:ring-2 focus-within:ring-black focus-within:ring-offset-2 hover:text-black">
-                    <span>Upload a file</span>
-                    <input id="img" name="img" type="file" class="sr-only" accept="image/*">
-                </label>
-            </div>
-
+            <input type="file" id="img" name="img" accept="image/*"
+                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
+                onchange="previewImage(event)">
         </div>
+
+        {{-- ── Shipping Information ──────────────────────────────── --}}
+        <div class="border-t border-gray-200 pt-6">
+            <h3 class="text-base font-medium text-gray-900 mb-1">Shipping Information</h3>
+            <p class="text-sm text-gray-500 mb-4">
+                This information will be pre-filled automatically at checkout.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                {{-- Phone --}}
+                <div>
+                    <x-input-label for="phone" :value="__('Phone')" />
+                    <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full"
+                        :value="old('phone', $user->phone)"
+                        placeholder="+54 11 1234-5678"
+                        autocomplete="tel" />
+                    <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+                </div>
+
+                {{-- ZIP Code --}}
+                <div>
+                    <x-input-label for="zip_code" :value="__('ZIP Code')" />
+                    <x-text-input id="zip_code" name="zip_code" type="text" class="mt-1 block w-full"
+                        :value="old('zip_code', $user->zip_code)"
+                        placeholder="1234"
+                        autocomplete="postal-code" />
+                    <x-input-error class="mt-2" :messages="$errors->get('zip_code')" />
+                </div>
+
+                {{-- Address --}}
+                <div class="sm:col-span-2">
+                    <x-input-label for="address" :value="__('Address')" />
+                    <x-text-input id="address" name="address" type="text" class="mt-1 block w-full"
+                        :value="old('address', $user->address)"
+                        placeholder="123 Main St, Apt 4B"
+                        autocomplete="street-address" />
+                    <x-input-error class="mt-2" :messages="$errors->get('address')" />
+                </div>
+
+                {{-- City --}}
+                <div>
+                    <x-input-label for="city" :value="__('City')" />
+                    <x-text-input id="city" name="city" type="text" class="mt-1 block w-full"
+                        :value="old('city', $user->city)"
+                        placeholder="Buenos Aires"
+                        autocomplete="address-level2" />
+                    <x-input-error class="mt-2" :messages="$errors->get('city')" />
+                </div>
+
+                {{-- Province --}}
+                <div>
+                    <x-input-label for="province" :value="__('Province / State')" />
+                    <x-text-input id="province" name="province" type="text" class="mt-1 block w-full"
+                        :value="old('province', $user->province)"
+                        placeholder="Buenos Aires"
+                        autocomplete="address-level1" />
+                    <x-input-error class="mt-2" :messages="$errors->get('province')" />
+                </div>
+
+            </div>
+        </div>
+        {{-- ─────────────────────────────────────────────────────── --}}
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
-            <p
-                x-data="{ show: true }"
-                x-show="show"
-                x-transition
-                x-init="setTimeout(() => show = false, 2000)"
-                class="text-sm text-gray-600">{{ __('Saved.') }}</p>
+                <p x-data="{ show: true }" x-show="show" x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600">
+                    {{ __('Saved.') }}
+                </p>
             @endif
         </div>
     </form>
 </section>
 
 <script>
-    document.getElementById('img').addEventListener('change', function(event) {
-        const file = event.target.files[0]; 
-        // Obtiene el archivo seleccionado
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('profile-preview').src = e.target.result; // Actualiza la imagen con la vista previa
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function () {
+        document.getElementById('profile-preview').src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
 </script>

@@ -9,13 +9,18 @@ class Subscription extends Model
 {
     use HasFactory;
 
-    protected $table = 'subscriptions';
-
+    protected $table      = 'subscriptions';
     protected $primaryKey = 'subscription_id';
 
-    protected $fillable = ['start_date', 'end_date', 'is_active', 'book_plan_fk'];
+    protected $fillable = [
+        'start_date',
+        'end_date',
+        'is_active',
+        'book_plan_fk',
+        'payment_method',  // 'mercadopago' | 'credit_card'
+        'payment_status',  // 'completed' | 'pending'
+    ];
 
-    // Relación con usuarios a través de la tabla intermedia
     public function users()
     {
         return $this->belongsToMany(User::class, 'subscriptions_has_users', 'subscription_fk', 'user_fk');
